@@ -3,8 +3,8 @@ import { readable, writable } from 'svelte/store';
 
 export class TaskElement {
   private _name: string
-  private _start: string
-  private _end: string
+  private _start: Date
+  private _end: Date
 
   constructor(name: string, start: Date, end: Date) {
     this._name = name;
