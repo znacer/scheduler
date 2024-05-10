@@ -20,7 +20,7 @@
 	onMount(events);
 </script>
 
-<div style:width="100%" style:height="100px" bind:clientWidth={$pixelWidth} class="row">
+<div style:width="90%" style:height="100px" bind:clientWidth={$pixelWidth} class="row">
 	{#each tasks as task}
 		<Task pixelWidth={$pixelWidth} startDate={$startDate} endDate={$endDate} {task} />
 	{/each}
