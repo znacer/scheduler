@@ -10,7 +10,7 @@
 		<Row />
 	</div>
 	<div class="grid">
-		{#each Array.from(Array(24).keys()) as time}
+		{#each Array.from(Array(25).keys()) as time}
 			<div
 				class="grid-columns"
 				style:border-left="1px solid"
@@ -19,7 +19,7 @@
                     height: 100%;
                     "
 				style:left={date2pos(
-					add($startDate, { hours: time + 1 }),
+					add($startDate, { hours: time }),
 					$startDate,
 					$endDate,
 					$pixelWidth

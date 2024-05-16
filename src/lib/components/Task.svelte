@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { format, parseISO } from 'date-fns';
-	import { date2pos, draggable } from '$lib/utils';
+	import { date2pos } from '$lib/utils';
 	import { TaskElement } from '../stores/events';
 
 	export let startDate: Date;

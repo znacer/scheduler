@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { date2pos } from '$lib/utils';
+	import { date2pos, taskRow } from '$lib/utils';
 	import { startDate, endDate, pixelWidth } from '../stores/layout';
 	import Task from './Task.svelte';
 	import { TaskElement, taskExample } from '../stores/events';
@@ -12,9 +12,10 @@
 		tasks = await response.json();
 		if (response.ok) {
 			tasks = tasks.map((task) => new TaskElement(task.name, task.start, task.end));
+			console.table(taskRow(tasks));
 			return tasks;
 		} else {
-			throw new Error(tasks);
+			throw new Error('' + tasks);
 		}
 	}
 	onMount(events);

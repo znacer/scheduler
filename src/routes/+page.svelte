@@ -1,6 +1,6 @@
 <script>
-	import TimeAxis from '../components/TimeAxis.svelte';
-	import Timeline from '../components/Timeline.svelte';
+	import TimeAxis from '$lib/components/TimeAxis.svelte';
+	import Timeline from '$lib/components/Timeline.svelte';
 	import { setDefaultOptions } from 'date-fns';
 	import { fr } from 'date-fns/locale';
 

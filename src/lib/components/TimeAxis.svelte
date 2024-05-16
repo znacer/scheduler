@@ -9,24 +9,26 @@
 </script>
 
 <div class="axis-line">
-	{#each Array.from(Array(24).keys()) as time}
+	{#each Array.from(Array(25).keys()) as time}
 		<div
 			class="axis-label"
 			style:left={date2pos(add($startDate, { hours: time }), $startDate, $endDate, $pixelWidth) +
 				'px'}
 		>
-			<p
-				style:margin-left={date2pos(
-					add($startDate, { hours: 1 }),
-					$startDate,
-					$endDate,
-					$pixelWidth
-				) /
-					3 +
-					'px'}
-			>
-				{time}
-			</p>
+			{#if time !== 24}
+				<p
+					style:margin-left={date2pos(
+						add($startDate, { hours: 1 }),
+						$startDate,
+						$endDate,
+						$pixelWidth
+					) /
+						3 +
+						'px'}
+				>
+					{time}
+				</p>
+			{/if}
 		</div>
 	{/each}
 </div>
