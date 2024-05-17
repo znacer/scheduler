@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { format, parseISO } from 'date-fns';
-	import { date2pos, draggable } from '$lib/utils';
+	import { date2pos } from '$lib/utils';
 	import { TaskElement } from '../stores/events';
 
 	export let startDate: Date;
@@ -21,7 +21,7 @@
 	style:top={posY + 'px'}
 	style:left={posX + 'px'}
 	style:width={width + 'px'}
-	style:height={height + 'px'}
+	style:height="100%"
 >
 	<p class="cardTitle">{task.name}</p>
 	<p class="cardContent">{format(task.start, 'p')}</p>
@@ -30,7 +30,7 @@
 
 <style>
 	.task {
-		position: relative;
+		position: absolute;
 		background-color: darkslateblue;
 		border: 1px solid red;
 		border-radius: 1em;
