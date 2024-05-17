@@ -1,5 +1,3 @@
-import type { TaskElement } from "./stores/events";
-
 export function date2pos(
   myDate: Date,
   initDate: Date,
