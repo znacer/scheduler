@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { add, sub } from 'date-fns';
-	import { startDate, endDate, pixelWidth } from '../stores/layout';
-	import { date2pos } from '$lib/utils';
+	import { add } from 'date-fns';
+	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
+	import { date2pos } from '$lib/utils/date2pos';
 	import Row from './Row.svelte';
 </script>
 
@@ -18,12 +18,8 @@
                     position: absolute;
                     height: 100%;
                     "
-				style:left={date2pos(
-					add($startDate, { hours: time }),
-					$startDate,
-					$endDate,
-					$pixelWidth
-				) + 'px'}
+				style:left={date2pos(add($startDate, { hours: time }), $startDate, $endDate, $pixelWidth) +
+					'px'}
 			></div>
 		{/each}
 	</div>
@@ -35,6 +31,7 @@
 		height: 100%;
 		border-top: solid salmon 1px;
 		border-bottom: solid salmon 1px;
+		max-height: 100px;
 	}
 	.row {
 		position: relative;

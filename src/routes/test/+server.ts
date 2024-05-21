@@ -21,7 +21,7 @@ const example = [
   {
     "name": "Event 4",
     "start": formatISO(add(startDate, {hours: 15})),
-    "end": formatISO(add(startDate, {hours: 18})),
+    "end": formatISO(add(startDate, {hours: 18, minutes: 30})),
   },
   {
     "name": "Event 5",

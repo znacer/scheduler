@@ -1,22 +1,22 @@
-import { add, formatISO, sub } from 'date-fns';
-import { readable, writable } from 'svelte/store';
+import { add, formatISO } from 'date-fns';
+import { writable } from 'svelte/store';
 
 export class TaskElement {
   private _name: string
-  private _start: string
-  private _end: string
+  private _start: Date
+  private _end: Date
 
-  constructor(name: string, start: Date, end: Date) {
+  constructor(name: string, start: Date | string, end: Date | string) {
     this._name = name;
-    this._start = start;
-    this._end = end;
+    this._start = start as Date;
+    this._end = end as Date;
   }
 
   get name(): string { return this._name; }
   get start(): Date { return this._start; }
   get end(): Date { return this._end; }
 
-  set name(newName: Date) { this._name = newName; }
+  set name(newName: string) { this._name = newName; }
   set start(newStart: Date) {
     if (newStart < this._end) {
       this._start = newStart;
@@ -32,7 +32,7 @@ export class TaskElement {
     }
   }
   public intersect(other: TaskElement) {
-    const inter = (a: TaskElement, b: TaskElement) => ((a.start <= b.start) && (a.end >= b.end) && (a.start !== b.start || a.end !== b.end));
+    const inter = (a: TaskElement, b: TaskElement) => ((a.start <= b.start) && (a.end > b.start) && (a.start !== b.start || a.end !== b.end));
     return inter(this, other) || inter(other, this);
   }
 }

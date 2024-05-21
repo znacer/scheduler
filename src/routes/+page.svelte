@@ -1,6 +1,5 @@
 <script>
-	import TimeAxis from '$lib/components/TimeAxis.svelte';
-	import Timeline from '$lib/components/Timeline.svelte';
+	import TimeApp from '$lib/components/TimeApp.svelte';
 	import { setDefaultOptions } from 'date-fns';
 	import { fr } from 'date-fns/locale';
 
@@ -13,8 +12,7 @@
 </svelte:head>
 
 <section>
-	<TimeAxis />
-	<Timeline />
+	<TimeApp />
 </section>
 
 <style>

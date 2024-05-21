@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { format, parseISO } from 'date-fns';
-	import { date2pos } from '$lib/utils';
-	import { TaskElement } from '../stores/events';
+	import { date2pos } from '$lib/utils/date2pos';
+	import { TaskElement } from '$lib/stores/events';
 
 	export let startDate: Date;
 	export let endDate: Date;
@@ -13,7 +13,7 @@
 	$: width =
 		date2pos(parseISO(task.end), startDate, endDate, pixelWidth) -
 		date2pos(parseISO(task.start), startDate, endDate, pixelWidth);
-	export let height: number = 80;
+	export let height: number = 100 - posY;
 </script>
 
 <div
@@ -21,11 +21,13 @@
 	style:top={posY + 'px'}
 	style:left={posX + 'px'}
 	style:width={width + 'px'}
-	style:height="100%"
+	style:height={height + 'px'}
 >
 	<p class="cardTitle">{task.name}</p>
-	<p class="cardContent">{format(task.start, 'p')}</p>
-	<p class="cardContent">{format(task.end, 'p')}</p>
+	<p class="cardContent">
+	{format(task.start, 'p')} <br />
+	{format(task.end, 'p')}
+	</p>
 </div>
 
 <style>
@@ -37,12 +39,14 @@
 	}
 	.cardTitle {
 		font-weight: 700;
+		font-size: 0.7rem;
 		color: darkgray;
 		margin: 5px 10px 0px;
 	}
 
 	.cardContent {
-		font-weight: 500;
+		font-weight: 100;
+		font-size: 0.7rem;
 		color: lightgray;
 		margin: 0px 10px 0px;
 	}
