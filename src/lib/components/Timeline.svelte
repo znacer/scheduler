@@ -2,12 +2,14 @@
 	import { add } from 'date-fns';
 	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
 	import { date2pos } from '$lib/utils/date2pos';
-	import Row from './Row.svelte';
+	import Row from '$lib/components/Row.svelte';
+	import type { TaskElement } from '$lib/stores/events';
+	export let tasks: TaskElement[][];
 </script>
 
 <div class="timeline">
 	<div class="row">
-		<Row />
+		<Row {tasks} />
 	</div>
 	<div class="grid">
 		{#each Array.from(Array(25).keys()) as time}

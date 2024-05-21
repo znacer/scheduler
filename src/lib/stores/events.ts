@@ -1,6 +1,3 @@
-import { add, formatISO } from 'date-fns';
-import { writable } from 'svelte/store';
-
 export class TaskElement {
   private _name: string
   private _start: Date
@@ -36,30 +33,3 @@ export class TaskElement {
     return inter(this, other) || inter(other, this);
   }
 }
-
-function createTask(name: string, start: Date, end: Date) {
-  const { subscribe, set, update } = writable(new TaskElement(name, start, end));
-  return {
-    subscribe,
-    rename: (newName: string) => update((elt) => {
-      elt.name = newName;
-      return elt;
-    }),
-    updateStart: (newStart: Date) => update((elt) => {
-      elt.start = newStart;
-      return elt;
-    }),
-    updateEnd: (newEnd: Date) => update((elt) => {
-      elt.end = newEnd;
-      return elt;
-    }),
-  }
-}
-
-const start = formatISO(new Date());
-const end = formatISO(add(new Date(), { hours: 2, minutes: 25 }));
-export const taskExample = writable(new TaskElement(
-  "example",
-  start,
-  end
-))

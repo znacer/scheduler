@@ -1,6 +1,24 @@
 <script lang="ts">
 	import TimeAxis from '$lib/components/TimeAxis.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
+	import { TaskElement } from '$lib/stores/events';
+	import { onMount } from 'svelte';
+	import { subrowingTasks } from '$lib/utils/subrows';
+
+
+	let tasks: TaskElement[][];
+	async function events() {
+		const response = await fetch('/test');
+		let taskList: TaskElement[] = await response.json();
+		if (response.ok) {
+			taskList = taskList.map((task) => new TaskElement(task.name, task.start, task.end));
+			tasks = subrowingTasks(taskList);
+			return tasks;
+		} else {
+			throw new Error('' + tasks);
+		}
+	}
+	onMount(events);
 </script>
 
 <div id="main-grid" style:display="flex">
@@ -18,7 +36,7 @@
 	</div>
 	<div id="row-content" style:width="90%">
 		<TimeAxis />
-		<Timeline />
+		<Timeline tasks={tasks}/>
 	</div>
 </div>
 
