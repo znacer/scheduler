@@ -1,4 +1,4 @@
-import { TaskElement } from "./stores/events";
+import { TaskElement } from "$lib/stores/events";
 
 export function subrowingTasks(tasks: TaskElement[], existingSubrows: TaskElement[][] = []): TaskElement[][] {
 	// If no existing subrows, create an empty one

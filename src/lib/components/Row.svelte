@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { date2pos } from '$lib/utils/date2pos';
 	import { subrowingTasks } from '$lib/utils/subrows';
 	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
 	import Task from './Task.svelte';
 	import { TaskElement, taskExample } from '$lib/stores/events';
 	import { onMount } from 'svelte';
-	import { format, formatISO, startOfDay } from 'date-fns';
 
 	let tasks: TaskElement[][] = [[$taskExample]];
 	async function events() {
