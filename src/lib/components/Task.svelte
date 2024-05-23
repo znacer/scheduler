@@ -2,6 +2,7 @@
 	import { format, parseISO } from 'date-fns';
 	import { date2pos } from '$lib/utils/date2pos';
 	import { TaskElement } from '$lib/stores/events';
+	import Modal from './Modal.svelte';
 
 	export let startDate: Date;
 	export let endDate: Date;
@@ -14,6 +15,8 @@
 		date2pos(task.end, startDate, endDate, pixelWidth) -
 		date2pos(task.start, startDate, endDate, pixelWidth);
 	export let height: number = 100 - posY;
+
+	let showModal = false;
 </script>
 
 <div
@@ -22,7 +25,8 @@
 	style:left={posX + 'px'}
 	style:width={width + 'px'}
 	style:height={height + 'px'}
-	style:overflow-x="hidden"
+	onclick={() => (showModal = true)}
+	role="none"
 >
 	<p class="cardTitle" style="max-height: 30px;">{task.name}</p>
 	<div style:overflow-y="auto" style:max-height={height - 32 + 'px'}>
@@ -33,12 +37,30 @@
 	</div>
 </div>
 
+<Modal bind:showModal>
+	<div>
+		<label for="taskName">Task Name:</label>
+		<input type="text" id="taskName" name="taskName" required bind:value={task.name} />
+	</div>
+
+	<div>
+		<label for="startTime">Start Time:</label>
+		<input type="datetime-local" id="startTime" name="startTime" />
+	</div>
+
+	<div>
+		<label for="endTime">End Time:</label>
+		<input type="text" id="endTime" name="endTime" bind:value={task.end} />
+	</div>
+</Modal>
+
 <style>
 	.task {
 		position: absolute;
 		background-color: darkslateblue;
 		border: 1px solid red;
 		border-radius: 1em;
+		overflow-x: hidden;
 	}
 	.cardTitle {
 		font-weight: 700;
