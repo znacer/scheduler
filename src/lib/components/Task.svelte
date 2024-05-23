@@ -7,12 +7,12 @@
 	export let endDate: Date;
 	export let task: TaskElement;
 	export let pixelWidth: number;
-	$: posX = date2pos(parseISO(task.start), startDate, endDate, pixelWidth);
+	$: posX = date2pos(task.start, startDate, endDate, pixelWidth);
 
 	export let posY: number = 0;
 	$: width =
-		date2pos(parseISO(task.end), startDate, endDate, pixelWidth) -
-		date2pos(parseISO(task.start), startDate, endDate, pixelWidth);
+		date2pos(task.end, startDate, endDate, pixelWidth) -
+		date2pos(task.start, startDate, endDate, pixelWidth);
 	export let height: number = 100 - posY;
 </script>
 
@@ -22,12 +22,15 @@
 	style:left={posX + 'px'}
 	style:width={width + 'px'}
 	style:height={height + 'px'}
+	style:overflow-x="hidden"
 >
-	<p class="cardTitle">{task.name}</p>
-	<p class="cardContent">
-	{format(task.start, 'p')} <br />
-	{format(task.end, 'p')}
-	</p>
+	<p class="cardTitle" style="max-height: 30px;">{task.name}</p>
+	<div style:overflow-y="auto" style:max-height={height - 32 + 'px'}>
+		<p class="cardContent">
+			{format(task.start, 'p')} <br />
+			{format(task.end, 'p')}
+		</p>
+	</div>
 </div>
 
 <style>

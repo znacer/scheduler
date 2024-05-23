@@ -36,3 +36,14 @@ export function subrowingTasks(tasks: TaskElement[], existingSubrows: TaskElemen
 
 	return existingSubrows;
 }
+
+
+export function tasksSizing(tasks: TaskElement[]) {
+	const matInter = tasks.map(
+		(task) => {
+			//TODO: 
+			return 1;
+		}
+	)
+	return tasks;
+}

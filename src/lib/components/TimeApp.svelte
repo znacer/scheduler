@@ -5,17 +5,29 @@
 	import { onMount } from 'svelte';
 	import { subrowingTasks } from '$lib/utils/subrows';
 
-
-	let tasks: TaskElement[][];
+	type RowsGet = {
+		name: string;
+		tasks: { name: string; start: Date; end: Date }[];
+	};
+	let rows: { name: string; tasks: TaskElement[][] }[];
 	async function events() {
 		const response = await fetch('/test');
-		let taskList: TaskElement[] = await response.json();
+		let getRows: RowsGet[] = await response.json();
 		if (response.ok) {
-			taskList = taskList.map((task) => new TaskElement(task.name, task.start, task.end));
-			tasks = subrowingTasks(taskList);
-			return tasks;
+			rows = [];
+			getRows.forEach((row: RowsGet) => {
+				let rowTasks = row.tasks.map((task: { name: string; start: Date; end: Date }) => {
+					return new TaskElement(task.name, task.start, task.end);
+				});
+				rows.push({
+					name: row.name,
+					tasks: subrowingTasks(rowTasks)
+				});
+			});
+			console.log(rows);
+			return rows;
 		} else {
-			throw new Error('' + tasks);
+			throw new Error('rows are not ok' + rows);
 		}
 	}
 	onMount(events);
@@ -30,13 +42,21 @@
 			style:margin="0"
 			style:padding="0"
 		></div>
-		<div class="row-name">
-			<p>Test</p>
-		</div>
+		{#if rows !== undefined}
+			{#each rows as row}
+				<div class="row-name">
+					<p>{row.name}</p>
+				</div>
+			{/each}
+		{/if}
 	</div>
 	<div id="row-content" style:width="90%">
 		<TimeAxis />
-		<Timeline tasks={tasks}/>
+		{#if rows !== undefined}
+			{#each rows as row}
+				<Timeline tasks={row.tasks as TaskElement[][]} />
+			{/each}
+		{/if}
 	</div>
 </div>
 
