@@ -6,18 +6,13 @@
 	export let tasks: TaskElement[][]; //= [[$taskExample]];
 </script>
 
-<div
-	style:width="90%"
-	style:height="100px"
-	style="min-width: 500px;"
-	bind:clientWidth={$pixelWidth}
-	class="row"
->
+<div bind:clientWidth={$pixelWidth} class="row">
 	{#if tasks !== undefined}
 		{#each tasks as subrow, i}
 			{#each subrow as task}
 				<Task
-					posY={i * 50}
+					posY={i * (100 / tasks.length)}
+					height={100 / tasks.length}
 					pixelWidth={$pixelWidth}
 					startDate={$startDate}
 					endDate={$endDate}
@@ -29,4 +24,7 @@
 </div>
 
 <style>
+	.row {
+		height: 100px;
+	}
 </style>

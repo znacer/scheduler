@@ -15,11 +15,6 @@
 		{#each Array.from(Array(25).keys()) as time}
 			<div
 				class="grid-columns"
-				style:border-left="1px solid"
-				style="
-                    position: absolute;
-                    height: 100%;
-                    "
 				style:left={date2pos(add($startDate, { hours: time }), $startDate, $endDate, $pixelWidth) +
 					'px'}
 			></div>
@@ -31,9 +26,8 @@
 	.timeline {
 		position: relative;
 		height: 100%;
-		border-top: solid salmon 1px;
-		border-bottom: solid salmon 1px;
 		max-height: 100px;
+		width: 100%;
 	}
 	.row {
 		position: relative;
@@ -48,5 +42,10 @@
 		z-index: -1;
 		top: 0;
 		left: 0;
+	}
+	.grid-columns {
+		position: absolute;
+		height: 100%;
+		border-left: 1px solid;
 	}
 </style>

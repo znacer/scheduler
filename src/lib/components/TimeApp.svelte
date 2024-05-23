@@ -24,46 +24,51 @@
 					tasks: subrowingTasks(rowTasks)
 				});
 			});
-			console.log(rows);
-			return rows;
+			// return rows;
 		} else {
-			throw new Error('rows are not ok' + rows);
+			throw new Error('Did not got correct rows ' + rows);
 		}
 	}
 	onMount(events);
 </script>
 
-<div id="main-grid" style:display="flex">
-	<div id="row-titles" style:width="10%" style:height="100%" style:top="0px">
-		<div
-			id="row-holder"
-			style:top="0px"
-			style:height="20px"
-			style:margin="0"
-			style:padding="0"
-		></div>
-		{#if rows !== undefined}
-			{#each rows as row}
+<div id="main-grid">
+	<div id="first-row" style:height="20px">
+		<div id="row-holder"></div>
+		<TimeAxis />
+	</div>
+
+	{#if rows !== undefined}
+		{#each rows as row}
+			<div class="row-content" style:display="flex">
 				<div class="row-name">
 					<p>{row.name}</p>
 				</div>
-			{/each}
-		{/if}
-	</div>
-	<div id="row-content" style:width="90%">
-		<TimeAxis />
-		{#if rows !== undefined}
-			{#each rows as row}
 				<Timeline tasks={row.tasks as TaskElement[][]} />
-			{/each}
-		{/if}
-	</div>
+			</div>
+		{/each}
+	{/if}
 </div>
 
 <style>
+	#main-grid {
+		border: 1px solid salmon;
+	}
+	#first-row {
+		width: 100%;
+		display: flex;
+		top: 0px;
+		border-bottom: 1px solid salmon;
+	}
+	.row-content {
+		border-bottom: 1px solid salmon;
+	}
+	#row-holder,
+	.row-name {
+		width: 10%;
+	}
 	.row-name {
 		height: 100px;
-		border: 1px solid red;
 		align-content: center;
 	}
 </style>

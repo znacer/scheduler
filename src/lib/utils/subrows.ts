@@ -5,7 +5,6 @@ export function subrowingTasks(tasks: TaskElement[], existingSubrows: TaskElemen
 	if (!existingSubrows.length) {
 		existingSubrows = [[]];
 	}
-
 	// Iterate over the tasks
 	for (const task of tasks) {
 		// Find the first subrow where the task doesn't intersect with any existing task
@@ -38,12 +37,3 @@ export function subrowingTasks(tasks: TaskElement[], existingSubrows: TaskElemen
 }
 
 
-export function tasksSizing(tasks: TaskElement[]) {
-	const matInter = tasks.map(
-		(task) => {
-			//TODO: 
-			return 1;
-		}
-	)
-	return tasks;
-}

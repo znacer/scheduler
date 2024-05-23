@@ -40,6 +40,7 @@
 		height: 20px;
 		background-color: #ddd;
 		position: relative;
+		width: 100%;
 	}
 	.axis-label {
 		position: absolute;
