@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { add, sub } from 'date-fns';
-	import { startDate, endDate, pixelWidth } from '../stores/layout';
-	import { date2pos } from '$lib/utils';
+	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
+	import { date2pos } from '$lib/utils/date2pos';
 
 	// const startDate = sub(new Date(), { hours: 1 });
 	// const endDate = new Date();
@@ -40,6 +40,7 @@
 		height: 20px;
 		background-color: #ddd;
 		position: relative;
+		width: 100%;
 	}
 	.axis-label {
 		position: absolute;
