@@ -2,34 +2,9 @@
 	import TimeAxis from '$lib/components/TimeAxis.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
 	import { TaskElement } from '$lib/stores/events';
-	import { onMount } from 'svelte';
-	import { subrowingTasks } from '$lib/utils/subrows';
+	import type { RowContents } from '$lib/utils/types';
 
-	type RowsGet = {
-		name: string;
-		tasks: { name: string; start: Date; end: Date }[];
-	};
-	let rows: { name: string; tasks: TaskElement[][] }[];
-	async function events() {
-		const response = await fetch('/test');
-		let getRows: RowsGet[] = await response.json();
-		if (response.ok) {
-			rows = [];
-			getRows.forEach((row: RowsGet) => {
-				let rowTasks = row.tasks.map((task: { name: string; start: Date; end: Date }) => {
-					return new TaskElement(task.name, task.start, task.end);
-				});
-				rows.push({
-					name: row.name,
-					tasks: subrowingTasks(rowTasks)
-				});
-			});
-			// return rows;
-		} else {
-			throw new Error('Did not got correct rows ' + rows);
-		}
-	}
-	onMount(events);
+	let { rows } = $props();
 </script>
 
 <div id="main-grid">
@@ -38,16 +13,14 @@
 		<TimeAxis />
 	</div>
 
-	{#if rows !== undefined}
-		{#each rows as row}
-			<div class="row-content" style:display="flex">
-				<div class="row-name">
-					<p>{row.name}</p>
-				</div>
-				<Timeline tasks={row.tasks as TaskElement[][]} />
+	{#each rows as row}
+		<div class="row-content" style:display="flex">
+			<div class="row-name">
+				<p>{row.name}</p>
 			</div>
-		{/each}
-	{/if}
+			<Timeline tasks={row.tasks as TaskElement[][]} />
+		</div>
+	{/each}
 </div>
 
 <style>

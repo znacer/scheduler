@@ -3,7 +3,8 @@
 	import Task from './Task.svelte';
 	import { TaskElement } from '$lib/stores/events';
 
-	export let tasks: TaskElement[][]; //= [[$taskExample]];
+	// export let tasks: TaskElement[][]; //= [[$taskExample]];
+	let { tasks } = $props();
 </script>
 
 <div bind:clientWidth={$pixelWidth} class="row">

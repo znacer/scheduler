@@ -80,3 +80,4 @@ const example = [
 export function GET() {
   return json(example);
 }
+

@@ -4,19 +4,38 @@
 	import { TaskElement } from '$lib/stores/events';
 	import Modal from './Modal.svelte';
 
-	export let startDate: Date;
-	export let endDate: Date;
-	export let task: TaskElement;
-	export let pixelWidth: number;
-	$: posX = date2pos(task.start, startDate, endDate, pixelWidth);
+	// export let startDate: Date;
+	// export let endDate: Date;
+	// export let task: TaskElement;
+	// export let pixelWidth: number;
+	// export let posY: number = 0;
+	// export let height: number = 100 - posY;
 
-	export let posY: number = 0;
-	$: width =
+	type MyProp = {
+		startDate: Date|String,
+		endDate: Date | String,
+		task: TaskElement,
+		pixelWidth: number,
+		posY: number,
+		height: number,
+	}
+	let {
+		startDate,
+		endDate,
+		task = $bindable(), 
+		pixelWidth,
+		posY = 0,
+		height = 100 - posY
+	}: MyProp = $props();
+
+	let posX = $derived(date2pos(task.start, startDate, endDate, pixelWidth));
+
+	let width = $derived(
 		date2pos(task.end, startDate, endDate, pixelWidth) -
-		date2pos(task.start, startDate, endDate, pixelWidth);
-	export let height: number = 100 - posY;
+			date2pos(task.start, startDate, endDate, pixelWidth)
+	);
 
-	let showModal = false;
+	let showModal = $state(false);
 </script>
 
 <div
@@ -38,20 +57,23 @@
 </div>
 
 <Modal bind:showModal>
-	<div>
-		<label for="taskName">Task Name:</label>
-		<input type="text" id="taskName" name="taskName" required bind:value={task.name} />
-	</div>
+	<form>
+		<div>
+			<label for="taskName">Task Name:</label>
+			<input type="text" id="taskName" name="taskName" required bind:value={task.name} />
+		</div>
 
-	<div>
-		<label for="startTime">Start Time:</label>
-		<input type="datetime-local" id="startTime" name="startTime" />
-	</div>
+		<div>
+			<label for="startTime">Start Time:</label>
+			<input type="text" id="startTime" name="startTime" bind:value={task.start} />
+		</div>
 
-	<div>
-		<label for="endTime">End Time:</label>
-		<input type="text" id="endTime" name="endTime" bind:value={task.end} />
-	</div>
+		<div>
+			<label for="endTime">End Time:</label>
+			<input type="text" id="endTime" name="endTime" bind:value={task.end} />
+		</div>
+		<button onclick={() => console.log(task)}>Submit</button>
+	</form>
 </Modal>
 
 <style>

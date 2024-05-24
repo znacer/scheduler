@@ -4,7 +4,8 @@
 	import { date2pos } from '$lib/utils/date2pos';
 	import Row from '$lib/components/Row.svelte';
 	import type { TaskElement } from '$lib/stores/events';
-	export let tasks: TaskElement[][];
+	// export let tasks: TaskElement[][];
+	let { tasks } = $props();
 </script>
 
 <div class="timeline">

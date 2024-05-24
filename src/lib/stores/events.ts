@@ -19,11 +19,11 @@ export class TaskElement {
 
   set name(newName: string) { this._name = newName; }
   set start(newStart: Date) {
-    if (newStart < this._end) {
-      this._start = newStart;
-    } else {
-      throw new Error("Start date must be earlier than end date.")
-    }
+    // if (newStart < this._end) {
+    this._start = newStart;
+    // } else {
+    // throw new Error("Start date must be earlier than end date.")
+    // }
   }
   set end(newEnd: Date) {
     if (newEnd > this._start) {
