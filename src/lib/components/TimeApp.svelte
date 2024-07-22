@@ -1,10 +1,7 @@
 <script lang="ts">
 	import TimeAxis from '$lib/components/TimeAxis.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
-	import { TaskElement } from '$lib/stores/events';
-	import type { RowContents } from '$lib/utils/types';
-
-	let { rows } = $props();
+	import { tasks } from '$lib/stores/tasks.svelte';
 </script>
 
 <div id="main-grid">
@@ -13,12 +10,13 @@
 		<TimeAxis />
 	</div>
 
-	{#each rows as row}
+	{#each tasks.ships as ship}
 		<div class="row-content" style:display="flex">
 			<div class="row-name">
-				<p>{row.name}</p>
+				<p>{ship}</p>
 			</div>
-			<Timeline tasks={row.tasks as TaskElement[][]} />
+			<!-- TODO: Change ship names  -->
+			<Timeline name={ship} />
 		</div>
 	{/each}
 </div>

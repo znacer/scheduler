@@ -11,8 +11,14 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/resources' ? 'page' : undefined}>
+				<a href="/resources">Resources</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/ship' ? 'page' : undefined}>
+				<a href="/ship">Ship</a>
+			</li>
 			<li aria-current={$page.url.pathname === '/inputs' ? 'page' : undefined}>
-			<a href="/inputs">Inputs</a>
+				<a href="/inputs">Inputs</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About</a>
@@ -22,14 +28,12 @@
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
-
 </header>
 
 <style>
 	header {
 		display: flex;
 		justify-content: space-around;
-
 	}
 
 	nav {

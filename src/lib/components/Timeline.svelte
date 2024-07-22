@@ -1,24 +1,18 @@
 <script lang="ts">
 	import { add } from 'date-fns';
-	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
+	import { startDate } from '$lib/stores/layout.svelte';
 	import { date2pos } from '$lib/utils/date2pos';
 	import Row from '$lib/components/Row.svelte';
-	import type { TaskElement } from '$lib/stores/events';
-	// export let tasks: TaskElement[][];
-	let { tasks } = $props();
+	let { name } = $props();
 </script>
 
 <div class="timeline">
 	<div class="row">
-		<Row {tasks} />
+		<Row {name} />
 	</div>
 	<div class="grid">
 		{#each Array.from(Array(25).keys()) as time}
-			<div
-				class="grid-columns"
-				style:left={date2pos(add($startDate, { hours: time }), $startDate, $endDate, $pixelWidth) +
-					'px'}
-			></div>
+			<div class="grid-columns" style:left={date2pos(add(startDate, { hours: time })) + 'px'}></div>
 		{/each}
 	</div>
 </div>

@@ -1,25 +1,27 @@
 <script lang="ts">
-	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
+	import { pixelWidth } from '$lib/stores/layout.svelte';
 	import Task from './Task.svelte';
-	import { TaskElement } from '$lib/stores/events';
+	import { tasks } from '$lib/stores/tasks.svelte';
 
-	// export let tasks: TaskElement[][]; //= [[$taskExample]];
-	let { tasks } = $props();
+	type RowProp = {
+		name: string;
+	};
+	let { name }: RowProp = $props();
+	let clientWidth = $state(0);
+	$effect(() => {
+		pixelWidth.pixelWidth = clientWidth;
+	});
+	let maxSubrows: number = tasks
+		.shipsTasks(name)
+		.reduce((acc, [_, task]) => Math.max(acc, task.subrow(name)), 1);
 </script>
 
-<div bind:clientWidth={$pixelWidth} class="row">
+<div bind:clientWidth class="row">
 	{#if tasks !== undefined}
-		{#each tasks as subrow, i}
-			{#each subrow as task}
-				<Task
-					posY={i * (100 / tasks.length)}
-					height={100 / tasks.length}
-					pixelWidth={$pixelWidth}
-					startDate={$startDate}
-					endDate={$endDate}
-					{task}
-				/>
-			{/each}
+		{#each tasks.shipsTasks(name) as [_, task]}
+			{#if task !== undefined}
+				<Task task_id={task.id} subrow_id={task.subrow(name)} max_subrows={maxSubrows} />
+			{/if}
 		{/each}
 	{/if}
 </div>
@@ -27,5 +29,6 @@
 <style>
 	.row {
 		height: 100px;
+		max-height: 100px;
 	}
 </style>
