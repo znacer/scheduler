@@ -1,6 +1,12 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
+
 	// export let showModal: boolean;
-	let { showModal = $bindable() } = $props();
+	type ModalProp = {
+		showModal: boolean
+		children: Snippet
+	}
+	let { showModal = $bindable() , children}: ModalProp = $props();
 
 	let dialog: HTMLDialogElement;
 
@@ -9,23 +15,19 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
 	onclose={() => (showModal = false)}
 	onclick={() => dialog.close()}
 	role="none"
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		onclick={(e) => {
 			e.stopPropagation();
 		}}
 		role="none"
 	>
-		<slot name="header" />
-		<hr />
-		<slot />
+		{@render children()}
 		<hr />
 		<button onclick={() => dialog.close()}>close modal</button>
 	</div>

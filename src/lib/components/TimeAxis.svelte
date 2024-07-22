@@ -1,31 +1,14 @@
 <script lang="ts">
-	import { add, sub } from 'date-fns';
-	import { startDate, endDate, pixelWidth } from '$lib/stores/layout';
+	import { add } from 'date-fns';
+	import { startDate } from '$lib/stores/layout.svelte';
 	import { date2pos } from '$lib/utils/date2pos';
-
-	// const startDate = sub(new Date(), { hours: 1 });
-	// const endDate = new Date();
-	const timeScale = 'hour';
 </script>
 
 <div class="axis-line">
 	{#each Array.from(Array(25).keys()) as time}
-		<div
-			class="axis-label"
-			style:left={date2pos(add($startDate, { hours: time }), $startDate, $endDate, $pixelWidth) +
-				'px'}
-		>
+		<div class="axis-label" style:left={date2pos(add(startDate, { hours: time })) + 'px'}>
 			{#if time !== 24}
-				<p
-					style:margin-left={date2pos(
-						add($startDate, { hours: 1 }),
-						$startDate,
-						$endDate,
-						$pixelWidth
-					) /
-						3 +
-						'px'}
-				>
+				<p style:margin-left={date2pos(add(startDate, { hours: 1 })) / 3 + 'px'}>
 					{time}
 				</p>
 			{/if}
