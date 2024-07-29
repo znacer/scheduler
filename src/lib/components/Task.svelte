@@ -2,7 +2,7 @@
 	import { date2pos } from '$lib/utils/date2pos';
 	import Modal from './Modal.svelte';
 	import { tasks } from '$lib/stores/tasks.svelte';
-	// import TaskTooltip from './TaskTooltip.svelte';
+	import TaskTooltip from './TaskTooltip.svelte';
 	import { format } from 'date-fns';
 
 	type MyProp = {
@@ -17,8 +17,8 @@
 		throw new Error('TaskIdError');
 	}
 	let height = 100 / (max_subrows + 1);
-	let posY = subrow_id * height;
-	let posX = $derived(date2pos(task.start));
+	let posY: number = subrow_id * height;
+	let posX: number = $derived(date2pos(task.start));
 	let width = $derived(date2pos(task.end) - date2pos(task.start));
 
 	let showModal = $state(false);
@@ -26,16 +26,11 @@
 </script>
 
 {#if showTooltip}
-	<div
-		style:top={posY - height + 'px'}
-		style:left={posX - 0.25 * width + 'px'}
-		style:width={1.5 * width + 'px'}
-		class="tooltip"
-	>
+	<TaskTooltip {height} {subrow_id} {task_id}>
 		start: {format(task.start, 'Pp')}<br />
-		end: {format(task.end, 'Pp')}
+		end: {format(task.end, 'Pp')}<br />
 		{task_id}
-	</div>
+	</TaskTooltip>
 {/if}
 {#key task}
 	<div
@@ -50,7 +45,7 @@
 		onmouseleave={() => (showTooltip = false)}
 		onfocus={() => {}}
 	>
-		<p class="cardTitle" style:max-width={width}>{task.name}</p>
+		<p class="cardTitle">{task.name}</p>
 	</div>
 {/key}
 
@@ -82,23 +77,21 @@
 		border-radius: 1em;
 		/* overflow-x: hidden; */
 		z-index: 1;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
 	}
 	.cardTitle {
+		/* width: 100%; */
 		user-select: none;
 		-moz-user-select: none;
 		-webkit-user-select: none;
 		font-weight: 700;
-		font-size: 0.6rem;
+		font-size: 0.5rem;
 		color: darkgray;
 		margin: 5px 10px 0px;
 		max-height: 30px;
 		text-align: center;
 		overflow-y: clip;
-	}
-	.tooltip {
-		position: absolute;
-		z-index: 10;
-		background-color: lightgrey;
-		border: 1px solid black;
 	}
 </style>

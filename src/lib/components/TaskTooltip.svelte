@@ -1,56 +1,52 @@
 <script lang="ts">
+	import { tasks } from '$lib/stores/tasks.svelte';
+	import { date2pos } from '$lib/utils/date2pos';
 	import type { Snippet } from 'svelte';
 
 	type TooltipType = {
-		title: string;
-		posX: number;
-		posY: number;
-		width: number;
+		height: number;
+		subrow_id: number;
+		task_id: string;
 		children: Snippet;
 	};
-	let { title, posX, posY, width, children }: TooltipType = $props();
-	let isHovered = $state(false);
-	let x = posX;
-	let y = posY;
-
-	function mouseOver(event: MouseEvent) {
-		isHovered = true;
-		// x = event.pageX;
-		// y = event.pageY;
+	let { height, subrow_id, task_id, children }: TooltipType = $props();
+	let task = tasks.get(task_id);
+	if (task === undefined) {
+		throw new Error('TaskIdError ' + task_id + subrow_id);
 	}
-	function mouseMove(event: MouseEvent) {
-		// x = event.pageX;
-		// y = event.pageY;
-	}
-	function mouseLeave() {
-		isHovered = false;
-	}
+	let posY: number = subrow_id * height;
+	let posX: number = $derived(date2pos(task.start));
+	let width = $derived(date2pos(task.end) - date2pos(task.start));
+	let toolTipHeight = $state(100);
+	let toolTipWidth = $state(100);
 </script>
 
 <div
-	onmouseover={mouseOver}
-	onmouseleave={mouseLeave}
-	onmousemove={mouseMove}
-	onfocus={() => {}}
-	role="tooltip"
+	style:top={posY - toolTipHeight + 'px'}
+	style:left={posX - 0.25 * toolTipWidth + 'px'}
+	style:width={1.5 * width + 'px'}
+	class="tooltip"
+	bind:clientHeight={toolTipHeight}
+	bind:clientWidth={toolTipWidth}
 >
 	{@render children()}
 </div>
 
-{#if isHovered}
-	<div style:top={posY + 'px'} style:left={posX + 'px'} style:width={width + 'px'} class="tooltip">
-		{title}
-	</div>
-{/if}
-
 <style>
+	/* .tooltip { */
+	/* 	border: 1px solid #ddd; */
+	/* 	box-shadow: 1px 1px 1px #ddd; */
+	/* 	background: white; */
+	/* 	border-radius: 4px; */
+	/* 	padding: 4px; */
+	/* 	position: absolute; */
+	/* 	z-index: 100; */
+	/* } */
 	.tooltip {
-		border: 1px solid #ddd;
-		box-shadow: 1px 1px 1px #ddd;
-		background: white;
-		border-radius: 4px;
-		padding: 4px;
 		position: absolute;
-		z-index: 100;
+		z-index: 10;
+		background-color: lightgrey;
+		border: 1px solid black;
+		min-width: 20em;
 	}
 </style>
