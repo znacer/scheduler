@@ -1,14 +1,41 @@
 <script lang="ts">
 	import TimeAxis from '$lib/components/TimeAxis.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
+	import { layoutDate } from '$lib/stores/layout.svelte';
 	import { tasks } from '$lib/stores/tasks.svelte';
+	import { format } from 'date-fns';
+	import type { ChangeEventHandler } from 'svelte/elements';
+
+	let onchangeStart: ChangeEventHandler<HTMLInputElement> = (event) => {
+		layoutDate.startDate = new Date(event.target.value);
+	};
+	let onchangeEnd: ChangeEventHandler<HTMLInputElement> = (event) => {
+		layoutDate.endDate = new Date(event.target.value);
+	};
 </script>
 
+<div>
+	<form>
+		<label>
+			Start Date:
+			<input
+				type="datetime-local"
+				value={format(layoutDate.startDate, "yyyy-MM-dd'T'HH:mm")}
+				onchange={onchangeStart}
+			/>
+		</label>
+		<label>
+			End Date:
+			<input
+				type="datetime-local"
+				value={format(layoutDate.endDate, "yyyy-MM-dd'T'HH:mm")}
+				onchange={onchangeEnd}
+			/>
+		</label>
+	</form>
+</div>
 <div id="main-grid">
-	<div id="first-row" style:height="20px">
-		<div id="row-holder"></div>
-		<TimeAxis />
-	</div>
+	<TimeAxis />
 
 	{#each tasks.ships as ship}
 		<div class="row-content" style:display="flex">
@@ -25,16 +52,9 @@
 	#main-grid {
 		border: 1px solid salmon;
 	}
-	#first-row {
-		width: 100%;
-		display: flex;
-		top: 0px;
-		border-bottom: 1px solid salmon;
-	}
 	.row-content {
 		border-bottom: 1px solid salmon;
 	}
-	#row-holder,
 	.row-name {
 		width: 10%;
 	}
