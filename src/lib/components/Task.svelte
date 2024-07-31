@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { date2pos } from '$lib/utils/date2pos';
 	import Modal from './Modal.svelte';
-	import { tasks } from '$lib/stores/tasks.svelte';
+	import { subrowingTasks, tasks } from '$lib/stores/tasks.svelte';
 	import TaskTooltip from './TaskTooltip.svelte';
 	import { format } from 'date-fns';
 	import type { ChangeEventHandler } from 'svelte/elements';
@@ -29,15 +29,22 @@
 
 	let showModal = $state(false);
 	let showTooltip = $state(false);
-	let onModalChangeStart: ChangeEventHandler<HTMLInputElement> = (e) => {
-		let target = e.target as HTMLInputElement;
-		task.start = new Date(target.value);
-	};
-	let onModalChangeEnd: ChangeEventHandler<HTMLInputElement> = (e) => {
-		let target = e.target as HTMLInputElement;
-		task.end = new Date(target.value);
-		tasks.set(task);
-	};
+
+	enum ModalChangeEnum {
+		Start = 1,
+		End
+	}
+	function onModalChange(ev: ModalChangeEnum): ChangeEventHandler<HTMLInputElement> {
+		let changeFn: ChangeEventHandler<HTMLInputElement> = (e) => {
+			let target = e.target as HTMLInputElement;
+			if (ev == ModalChangeEnum.Start) {
+				task.start = new Date(target.value);
+			} else if (ev == ModalChangeEnum.End) {
+				task.end = new Date(target.value);
+			}
+		};
+		return changeFn;
+	}
 </script>
 
 {#key task}
@@ -76,7 +83,7 @@
 			<input
 				type="datetime-local"
 				value={format(task.start, "yyyy-MM-dd'T'HH:mm")}
-				onchange={onModalChangeStart}
+				onchange={onModalChange(ModalChangeEnum.Start)}
 			/>
 		</label>
 
@@ -85,7 +92,7 @@
 			<input
 				type="datetime-local"
 				value={format(task.end, "yyyy-MM-dd'T'HH:mm")}
-				onchange={onModalChangeEnd}
+				onchange={onModalChange(ModalChangeEnum.End)}
 			/>
 		</label>
 		<button
@@ -104,14 +111,12 @@
 		background-color: darkslateblue;
 		border: 1px solid red;
 		border-radius: 1em;
-		/* overflow-x: hidden; */
 		z-index: 1;
 		user-select: none;
 		-moz-user-select: none;
 		-webkit-user-select: none;
 	}
 	.cardTitle {
-		/* width: 100%; */
 		user-select: none;
 		-moz-user-select: none;
 		-webkit-user-select: none;

@@ -7,10 +7,12 @@
 	import type { ChangeEventHandler } from 'svelte/elements';
 
 	let onchangeStart: ChangeEventHandler<HTMLInputElement> = (event) => {
-		layoutDate.startDate = new Date(event.target.value);
+		let target = event.target as HTMLInputElement;
+		layoutDate.startDate = new Date(target.value);
 	};
 	let onchangeEnd: ChangeEventHandler<HTMLInputElement> = (event) => {
-		layoutDate.endDate = new Date(event.target.value);
+		let target = event.target as HTMLInputElement;
+		layoutDate.endDate = new Date(target.value);
 	};
 </script>
 

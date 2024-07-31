@@ -1,11 +1,11 @@
 export class TaskElement {
-  private _id: string
-  private _name: string
-  private _start: Date
-  private _end: Date
-  private _ships: string[]
-  private _resources: string[]
-  private _subrow: Map<string, number>
+  private _id: string = $state("")
+  private _name: string = $state("")
+  private _start: Date = $state(new Date())
+  private _end: Date = $state(new Date())
+  private _ships: string[] = $state([])
+  private _resources: string[] = $state([])
+  private _subrow: Map<string, number> = $state(new Map())
 
 
   constructor(
@@ -143,7 +143,6 @@ export function subrowingTasks(tasks: Map<string, TaskElement>): Map<string, Tas
       }
     })
   })
-  // console.log(tasks)
   return tasks
 }
 
