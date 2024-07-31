@@ -4,6 +4,7 @@
 	import { tasks } from '$lib/stores/tasks.svelte';
 	import TaskTooltip from './TaskTooltip.svelte';
 	import { format } from 'date-fns';
+	import type { ChangeEventHandler } from 'svelte/elements';
 
 	type MyProp = {
 		task_id: string;
@@ -12,10 +13,15 @@
 	};
 
 	let { task_id, subrow_id, max_subrows }: MyProp = $props();
-	let task = tasks.get(task_id);
-	if (task === undefined) {
-		throw new Error('TaskIdError');
-	}
+	let task = $derived.by(() => {
+		let myTask = tasks.get(task_id);
+		if (myTask === undefined) {
+			throw new Error('TaskIdError');
+		} else {
+			return myTask;
+		}
+	});
+
 	let height = 100 / (max_subrows + 1);
 	let posY: number = subrow_id * height;
 	let posX: number = $derived(date2pos(task.start));
@@ -23,15 +29,17 @@
 
 	let showModal = $state(false);
 	let showTooltip = $state(false);
+	let onModalChangeStart: ChangeEventHandler<HTMLInputElement> = (e) => {
+		let target = e.target as HTMLInputElement;
+		task.start = new Date(target.value);
+	};
+	let onModalChangeEnd: ChangeEventHandler<HTMLInputElement> = (e) => {
+		let target = e.target as HTMLInputElement;
+		task.end = new Date(target.value);
+		tasks.set(task);
+	};
 </script>
 
-{#if showTooltip}
-	<TaskTooltip {height} {subrow_id} {task_id}>
-		start: {format(task.start, 'Pp')}<br />
-		end: {format(task.end, 'Pp')}<br />
-		{task_id}
-	</TaskTooltip>
-{/if}
 {#key task}
 	<div
 		class="task"
@@ -43,29 +51,50 @@
 		onclick={() => (showModal = true)}
 		onmouseenter={() => (showTooltip = true)}
 		onmouseleave={() => (showTooltip = false)}
-		onfocus={() => {}}
 	>
 		<p class="cardTitle">{task.name}</p>
 	</div>
 {/key}
 
+{#if showTooltip}
+	<TaskTooltip {height} {subrow_id} {task_id}>
+		start: {format(task.start, 'Pp')}<br />
+		end: {format(task.end, 'Pp')}<br />
+		{task_id}
+	</TaskTooltip>
+{/if}
+
 <Modal bind:showModal>
-	<form>
-		<div>
-			<label for="taskName">Task Name:</label>
-		</div>
-		<input type="text" id="taskName" name="taskName" required bind:value={task.name} />
+	<form class="modal-form">
+		<label for="taskName"
+			>Task Name:
+			<input type="text" id="taskName" name="taskName" required value={task.name} />
+		</label>
 
-		<div>
-			<label for="startTime">Start Time:</label>
-		</div>
-		<input type="text" id="startTime" name="startTime" bind:value={task.start} />
+		<label for="startTime"
+			>Start Time:
+			<input
+				type="datetime-local"
+				value={format(task.start, "yyyy-MM-dd'T'HH:mm")}
+				onchange={onModalChangeStart}
+			/>
+		</label>
 
-		<div>
-			<label for="endTime">End Time:</label>
-		</div>
-		<input type="text" id="endTime" name="endTime" bind:value={task.end} />
-		<button onclick={() => console.log(task)}>Submit</button>
+		<label for="endTime"
+			>End Time:
+			<input
+				type="datetime-local"
+				value={format(task.end, "yyyy-MM-dd'T'HH:mm")}
+				onchange={onModalChangeEnd}
+			/>
+		</label>
+		<button
+			onclick={() => {
+				console.log(task);
+			}}
+		>
+			Submit
+		</button>
 	</form>
 </Modal>
 
@@ -93,5 +122,9 @@
 		max-height: 30px;
 		text-align: center;
 		overflow-y: clip;
+	}
+	.modal-form {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

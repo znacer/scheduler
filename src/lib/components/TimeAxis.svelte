@@ -21,12 +21,9 @@
 	<div class="axis-line">
 		{#each layoutDate.timeSteps as time}
 			<div class="axis-label" style:left={date2pos(time) + 'px'} style:width={width + 'px'}>
-				{#if time !== 24}
-					<p style:margin-left={date2pos(add(layoutDate.startDate, { hours: 1 })) / 1000 + 'px'}>
-						<!-- <p> -->
+					<p style:margin-left={width / 1000 + 'px'}>
 						{format(time, 'p')}
 					</p>
-				{/if}
 			</div>
 		{/each}
 	</div>

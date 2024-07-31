@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pixelWidth } from '$lib/stores/layout.svelte';
+	import { layoutDate, pixelWidth } from '$lib/stores/layout.svelte';
 	import Task from './Task.svelte';
 	import { tasks } from '$lib/stores/tasks.svelte';
 
@@ -20,7 +20,9 @@
 	{#if tasks !== undefined}
 		{#each tasks.shipsTasks(name) as [_, task]}
 			{#if task !== undefined}
-				<Task task_id={task.id} subrow_id={task.subrow(name)} max_subrows={maxSubrows} />
+				{#if task.end > layoutDate.startDate && task.start < layoutDate.endDate}
+					<Task task_id={task.id} subrow_id={task.subrow(name)} max_subrows={maxSubrows} />
+				{/if}
 			{/if}
 		{/each}
 	{/if}

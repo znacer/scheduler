@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pixelWidth } from '$lib/stores/layout.svelte';
 	import { tasks } from '$lib/stores/tasks.svelte';
 	import { date2pos } from '$lib/utils/date2pos';
 	import type { Snippet } from 'svelte';
@@ -19,12 +20,21 @@
 	let width = $derived(date2pos(task.end) - date2pos(task.start));
 	let toolTipHeight = $state(100);
 	let toolTipWidth = $state(100);
+	let toolTipPosX = $derived.by(() => {
+		let newPosX: number =  posX + 0.5 * width -  0.5 * toolTipWidth;
+		if (newPosX < 0) {
+			return 0;
+		}
+		if (newPosX > pixelWidth.pixelWidth - toolTipWidth ) {
+			return pixelWidth.pixelWidth - toolTipWidth;
+		}
+		return newPosX;
+		})
 </script>
 
 <div
 	style:top={posY - toolTipHeight + 'px'}
-	style:left={posX - 0.25 * toolTipWidth + 'px'}
-	style:width={1.5 * width + 'px'}
+	style:left={toolTipPosX + 'px'}
 	class="tooltip"
 	bind:clientHeight={toolTipHeight}
 	bind:clientWidth={toolTipWidth}
@@ -33,15 +43,6 @@
 </div>
 
 <style>
-	/* .tooltip { */
-	/* 	border: 1px solid #ddd; */
-	/* 	box-shadow: 1px 1px 1px #ddd; */
-	/* 	background: white; */
-	/* 	border-radius: 4px; */
-	/* 	padding: 4px; */
-	/* 	position: absolute; */
-	/* 	z-index: 100; */
-	/* } */
 	.tooltip {
 		position: absolute;
 		z-index: 10;
