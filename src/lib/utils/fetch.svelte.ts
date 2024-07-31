@@ -8,12 +8,13 @@ export async function events() {
 		if (response.ok) {
 			// tasks.splice(0, tasks.size); // makes sure there is no previous data in the array
 			getRows.forEach((row: { [k: string]: any }) => {
-				tasks.set(new TaskElement(
+				let newTask = new TaskElement(
 					row["name"],
 					row["start"],
 					row["end"],
 					row["ships"]
-				));
+				);
+				tasks.set(newTask);
 			});
 			subrowingTasks(tasks.tasks)
 			tasks.computeShips();

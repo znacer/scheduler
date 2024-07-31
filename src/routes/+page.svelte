@@ -2,7 +2,7 @@
 	import TimeApp from '$lib/components/TimeApp.svelte';
 	import { setDefaultOptions } from 'date-fns';
 	import { fr } from 'date-fns/locale';
-	import { events } from '$lib/utils/fetch';
+	import { events } from '$lib/utils/fetch.svelte';
 	import { onMount } from 'svelte';
 
 	setDefaultOptions({ locale: fr });
