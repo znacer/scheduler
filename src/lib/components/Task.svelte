@@ -23,7 +23,7 @@
 	});
 
 	let height = 100 / (max_subrows + 1);
-	let posY: number = subrow_id * height;
+	let posY: number = $derived(subrow_id * height);
 	let posX: number = $derived(date2pos(task.start));
 	let width = $derived(date2pos(task.end) - date2pos(task.start));
 
@@ -42,6 +42,7 @@
 			} else if (ev == ModalChangeEnum.End) {
 				task.end = new Date(target.value);
 			}
+			subrowingTasks(tasks.tasks);
 		};
 		return changeFn;
 	}
@@ -72,15 +73,16 @@
 {/if}
 
 <Modal bind:showModal>
-	<form class="modal-form">
-		<label for="taskName"
-			>Task Name:
+	<form id="modal-form">
+		<label for="taskName">
+			Task Name:
 			<input type="text" id="taskName" name="taskName" required value={task.name} />
 		</label>
 
 		<label for="startTime"
 			>Start Time:
 			<input
+				id="startTime"
 				type="datetime-local"
 				value={format(task.start, "yyyy-MM-dd'T'HH:mm")}
 				onchange={onModalChange(ModalChangeEnum.Start)}
@@ -90,6 +92,7 @@
 		<label for="endTime"
 			>End Time:
 			<input
+				id="endTime"
 				type="datetime-local"
 				value={format(task.end, "yyyy-MM-dd'T'HH:mm")}
 				onchange={onModalChange(ModalChangeEnum.End)}
@@ -128,7 +131,7 @@
 		text-align: center;
 		overflow-y: clip;
 	}
-	.modal-form {
+	#modal-form {
 		display: flex;
 		flex-direction: column;
 	}

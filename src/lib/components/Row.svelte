@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { layoutDate, pixelWidth } from '$lib/stores/layout.svelte';
 	import Task from './Task.svelte';
-	import { subrowingTasks, tasks } from '$lib/stores/tasks.svelte';
+	import { tasks } from '$lib/stores/tasks.svelte';
 
 	type RowProp = {
 		name: string;
@@ -12,7 +12,6 @@
 		pixelWidth.pixelWidth = clientWidth;
 	});
 	let maxSubrows: number = $derived.by(() => {
-		subrowingTasks(tasks.tasks);
 		return tasks.shipsTasks(name).reduce((acc, [_, task]) => Math.max(acc, task.subrow(name)), 1);
 	});
 </script>

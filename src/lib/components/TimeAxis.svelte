@@ -8,10 +8,10 @@
 
 <div id="first-row" style:height="20px">
 	<div id="row-holder">
-		<form style="display: inline-flex;">
-			<label>
+		<form id="timezone-selector" style="display: inline-flex;">
+			<label for="tz-select">
 				TimeZone:
-				<select bind:value={tz}>
+				<select id="tz-select" bind:value={tz}>
 					<option>Z</option>
 					<option>A</option>
 				</select>
@@ -21,9 +21,9 @@
 	<div class="axis-line">
 		{#each layoutDate.timeSteps as time}
 			<div class="axis-label" style:left={date2pos(time) + 'px'} style:width={width + 'px'}>
-					<p style:margin-left={width / 1000 + 'px'}>
-						{format(time, 'p')}
-					</p>
+				<p style:margin-left={width / 1000 + 'px'}>
+					{format(time, 'p')}
+				</p>
 			</div>
 		{/each}
 	</div>

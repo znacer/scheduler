@@ -143,6 +143,7 @@ export function subrowingTasks(tasks: Map<string, TaskElement>): Map<string, Tas
       }
     })
   })
+  // console.log(tasks)
   return tasks
 }
 
