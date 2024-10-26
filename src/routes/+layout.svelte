@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { fr } from 'date-fns/locale';
   import { ModeWatcher } from "mode-watcher";
   import "../app.css";
   import Topbar from "$lib/components/layout/topbar.svelte";
+    import { setDefaultOptions } from 'date-fns';
 
+  setDefaultOptions({ locale: fr})
   let { children } = $props();
 </script>
 
