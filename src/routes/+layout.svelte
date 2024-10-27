@@ -7,15 +7,18 @@
 
   setDefaultOptions({ locale: fr})
   let { children } = $props();
+  let top_height = $state();
 </script>
 
 <ModeWatcher></ModeWatcher>
-<div class="h-screen w-screen overflow-hidden">
-<header class="pb-1">
+<div class="h-dvh w-screen overflow-auto">
+<header class="pb-1 fixed w-full z-50" bind:clientHeight={top_height}>
   <Topbar />
 </header>
 
-<main class="h-full">
+<main class="h-svh pb-2 overflow-scroll z-0" >
+  <div style="height: {top_height}px;">
+  </div>
   {@render children()}
 </main>
 </div>

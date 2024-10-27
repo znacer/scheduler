@@ -40,7 +40,7 @@
   });
 </script>
 
-<Menubar.Root>
+<Menubar.Root class="bg-background z-50">
   <Menubar.Menu>
     <Menubar.Trigger>Calendriers</Menubar.Trigger>
     <Menubar.Content>
