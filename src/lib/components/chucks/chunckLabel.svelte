@@ -6,7 +6,7 @@
 </script>
 
 <div
-  class="sticky w-full h-full content-center left-0 z-10 border border-slate-50"
+  class="sticky w-full h-full content-center left-0 z-10 border border-primary"
   style="height: {height}px;"
 >
   {@render children?.()}
