@@ -15,7 +15,7 @@
   <Topbar />
 </header>
 
-<main >
+<main class="h-full">
   {@render children()}
 </main>
 </div>

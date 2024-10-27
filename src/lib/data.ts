@@ -23,7 +23,8 @@ export function test_producer(nb_objects: number): TaskApiModel[] {
 		const id = Math.floor(Math.random() * 1789);
 		const name = `Task ${i + 1}`;
 		const description = `Description de l'objet ${i + 1}`;
-		const start = initial_timestamp + (Math.random() * 43200000); // timestamp aléatoire dans les 24 prochaines heures
+		let start = initial_timestamp + (Math.random() * 43200000); // timestamp aléatoire dans les 24 prochaines heures
+		start -= (start % 60_000);
 		const duration = Math.floor(Math.random() * 21) * 900000 + 900000; // durée aléatoire entre 15 minutes et 6 heures
 		objects.push({ id, name, description, start, duration });
 	}

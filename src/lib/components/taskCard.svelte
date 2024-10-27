@@ -42,7 +42,7 @@
     }
   }
 
-  let form_values: Task = $state({ ...task });
+  let form_values: Task = $state(JSON.parse(JSON.stringify(task)));
   let backgroundColor: ColorPalette = $state(random_color());
   if (task.color) {
     backgroundColor = task.color;
@@ -141,8 +141,7 @@
         type="submit"
         onclick={() => {
           console.log(form_values);
-          tasks_store.append(form_values);
-          // schedules_store.set_task(schedule_id, form_values);
+          tasks_store.append(JSON.parse(JSON.stringify(form_values)));
         }}
       >
         Sauvegarder

@@ -64,7 +64,7 @@ export function create_schedules() {
     const out = arrange_schedule_lines(tasks_store.from_schedule(schedule_id));
     out.forEach((v, k) => { lines_task.set(k, v) });
     const nb = [...out.values()].reduce((p, c) => Math.max(p, c));
-    lines_max.set(schedule_id, nb);
+    lines_max.set(schedule_id, nb + 1);
     return out;
   }
 

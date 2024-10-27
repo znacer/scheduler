@@ -1,19 +1,17 @@
 <script lang="ts">
   import { setMode, mode } from "mode-watcher";
+  import { endOfDay } from "date-fns";
   import * as Menubar from "$lib/components/ui/menubar/index";
   import Tzmenu from "./tzmenu.svelte";
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index";
-  import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
+  import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { parseAbsoluteToLocal } from "@internationalized/date";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { get_schedules } from "$lib/data";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
-  const end = new Date(
-    grid_layout_store.start +
-      grid_layout_store.millisec_by_cell * grid_layout_store.nb_columns,
-  );
+  const end = endOfDay(start);
   let value = $state({
     start: parseAbsoluteToLocal(start.toISOString()),
     end: parseAbsoluteToLocal(end.toISOString()),
@@ -22,16 +20,24 @@
     if (value.start) {
       const new_start = value.start.toDate().getTime();
       grid_layout_store.set_start(new_start);
-      const new_end = value.end.toDate().getTime();
+      const new_end = endOfDay(value.end.toDate()).getTime();
       grid_layout_store.set_end(new_end);
     }
   });
-  // async function get_schedules() {
-  //   const response = await fetch("/test");
-  //   const data = await response.json();
-  //   console.log(data);
-  //   schedules_store.add_schedules(data);
-  // }
+
+  let zoom = $state("hour");
+  $effect(() => {
+    switch (zoom) {
+      case "hour":
+        grid_layout_store.set_zoom(Zoom.HOUR);
+        break;
+      case "day":
+        grid_layout_store.set_zoom(Zoom.DAY);
+        break;
+      default:
+        grid_layout_store.set_zoom(Zoom.HOUR);
+    }
+  });
 </script>
 
 <Menubar.Root>
@@ -64,12 +70,22 @@
   <Menubar.Menu>
     <Menubar.Trigger>Pédiode</Menubar.Trigger>
     <Menubar.Content>
-      <RangeCalendar bind:value />
+      <RangeCalendar bind:value locale="fr" />
     </Menubar.Content>
   </Menubar.Menu>
 
   <Tzmenu />
 
+  <Menubar.Menu>
+    <Menubar.Trigger>Zoom</Menubar.Trigger>
+    <Menubar.Content>
+      <Menubar.RadioGroup bind:value={zoom}>
+        <Menubar.RadioItem value="hour">Heure</Menubar.RadioItem>
+        <Menubar.RadioItem value="day">Jour</Menubar.RadioItem>
+      </Menubar.RadioGroup>
+    </Menubar.Content>
+  </Menubar.Menu>
+  <div class="grow"></div>
   <Menubar.Menu>
     <Menubar.Trigger>Theme</Menubar.Trigger>
     <Menubar.Content>
