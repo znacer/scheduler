@@ -30,9 +30,8 @@
     fmt = "EEEEEE";
   }
 
-  let [dates, grid_dates] = $derived.by(() => {
+  let dates = $derived.by(() => {
     let m_dates: Map<number, number> = new Map(); //Map<timestamp, size>
-    let m_grid_dates: Map<number, number> = new Map(); //Map<timestamp, offset=cumsum(previous sizes)>
     m_dates = new Map();
     let cursor = 0;
     let all_dates: number[] = [];
@@ -60,14 +59,9 @@
         m_dates.set(ii_date, 1);
         cursor += 1;
       }
-      m_grid_dates.set(ii_date, cursor);
     }
-    return [m_dates, m_grid_dates];
+    return m_dates;
   });
-  if (zoom === Zoom.DAY) {
-    $inspect(dates);
-    $inspect(grid_dates);
-  }
 </script>
 
 <div class="flex flex-row" style="height: {grid_layout_store.axis_height}px">
