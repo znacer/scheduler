@@ -6,7 +6,10 @@
 
   let { schedule_id }: { schedule_id: number } = $props();
   schedules_store.arrange_lines(schedule_id);
-  let nb_lines = schedules_store.nb_lines(schedule_id);
+  let nb_lines = $derived(schedules_store.nb_lines(schedule_id));
+  $effect(() => {
+    schedules_store.arrange_lines(schedule_id);
+  });
 
   let height = $derived(nb_lines * grid_layout_store.cell_height);
   let width = $derived(

@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
+  import { fromDate, fromAbsolute } from "@internationalized/date";
   import {
     colorHashMap,
     ColorPalette,
@@ -12,6 +13,7 @@
   import Button from "./ui/button/button.svelte";
   import Input from "./ui/input/input.svelte";
   import Label from "./ui/label/label.svelte";
+  import Datetimepicker from "./datetimepicker.svelte";
 
   interface TaskCardProp {
     task: Task;
@@ -43,6 +45,10 @@
   }
 
   let form_values: Task = $state(JSON.parse(JSON.stringify(task)));
+  let task_end = $state(task.start + task.duration);
+  $effect(() => {
+    form_values.duration = task_end - form_values.start;
+  });
   let backgroundColor: ColorPalette = $state(random_color());
   if (task.color) {
     backgroundColor = task.color;
@@ -96,25 +102,11 @@
       </div>
       <div class="flex flex-row items-center gap-4">
         <Label for="start" class="text-right">Début</Label>
-        <!-- TODO: IMPLEMENT DATETIME PICKER-->
-        <p>
-          {new Intl.DateTimeFormat("fr", {
-            dateStyle: "short",
-            timeStyle: "long",
-            timeZone: grid_layout_store.tz,
-          }).format(task.start)}
-        </p>
+        <Datetimepicker bind:timestamp={form_values.start} />
       </div>
       <div class="flex flex-row items-center gap-4">
         <Label for="end" class="text-right">Fin</Label>
-        <!-- TODO: IMPLEMENT DATETIME PICKER-->
-        <p>
-          {new Intl.DateTimeFormat("fr", {
-            dateStyle: "short",
-            timeStyle: "long",
-            timeZone: grid_layout_store.tz,
-          }).format(task.start + task.duration)}
-        </p>
+        <Datetimepicker bind:timestamp={task_end} />
       </div>
       <div class="flex flex-row items-center gap-4">
         <Label for="color" class="text-right">Couleur</Label>
@@ -140,7 +132,6 @@
       <Button
         type="submit"
         onclick={() => {
-          console.log(form_values);
           tasks_store.append(JSON.parse(JSON.stringify(form_values)));
         }}
       >
