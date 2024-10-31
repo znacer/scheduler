@@ -1,7 +1,6 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
-  import { fromDate, fromAbsolute } from "@internationalized/date";
   import {
     colorHashMap,
     ColorPalette,
@@ -20,7 +19,7 @@
     schedule_id: number;
   }
 
-  let { task, schedule_id }: TaskCardProp = $props();
+  let { task }: TaskCardProp = $props();
   let width = $derived(
     grid_layout_store.nb_columns * grid_layout_store.cell_width,
   );
@@ -50,9 +49,11 @@
     form_values.duration = task_end - form_values.start;
   });
   let backgroundColor: ColorPalette = $state(random_color());
-  if (task.color) {
-    backgroundColor = task.color;
-  }
+  $effect(() => {
+    if (task.color) {
+      backgroundColor = task.color;
+    }
+  })
 </script>
 
 <Dialog.Root>
@@ -112,7 +113,9 @@
         <Label for="color" class="text-right">Couleur</Label>
         <Select.Root
           onSelectedChange={(e) => {
-            console.log(e?.value);
+            if (e !== undefined) {
+              form_values.color = e.value as ColorPalette
+            }
           }}
         >
           <Select.Trigger>
