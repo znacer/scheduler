@@ -13,6 +13,7 @@
   import Input from "./ui/input/input.svelte";
   import Label from "./ui/label/label.svelte";
   import Datetimepicker from "./datetimepicker.svelte";
+  import Durationpicker from "./durationpicker.svelte";
 
   interface TaskCardProp {
     task: Task;
@@ -45,6 +46,9 @@
 
   let form_values: Task = $state(JSON.parse(JSON.stringify(task)));
   let task_end = $state(task.start + task.duration);
+  $effect(() => {
+    task_end = form_values.start + form_values.duration;
+    })
   $effect(() => {
     form_values.duration = task_end - form_values.start;
   });
@@ -104,6 +108,10 @@
       <div class="flex flex-row items-center gap-4">
         <Label for="start" class="text-right">Début</Label>
         <Datetimepicker bind:timestamp={form_values.start} />
+      </div>
+      <div class="flex flex-row items-center gap-4">
+        <Label for="duration" class="text-right">Durée</Label>
+        <Durationpicker bind:duration={form_values.duration}/>
       </div>
       <div class="flex flex-row items-center gap-4">
         <Label for="end" class="text-right">Fin</Label>
