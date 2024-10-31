@@ -2,6 +2,7 @@
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import ChunckLabel from "./chucks/chunckLabel.svelte";
+  import ScheduleDialog from "./scheduleDialog.svelte";
 </script>
 
 <div id="label-menu" class="w-64">
@@ -35,9 +36,7 @@
       <ChunckLabel
         height={schedules_store.nb_lines(k) * grid_layout_store.cell_height}
       >
-        <p class="h-full content-center indent-4">
-          {schedules_store.name(k)}
-        </p>
+        <ScheduleDialog schedule_id={k} />
       </ChunckLabel>
     {/if}
   {/each}
