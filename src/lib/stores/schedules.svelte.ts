@@ -180,7 +180,15 @@ export function create_schedules() {
     }
   }
 
+  function reset() {
+    schedules = new SvelteMap();
+    checked = new SvelteMap();
+    lines_task = new SvelteMap();
+    lines_max = new SvelteMap;
+  }
+
   return {
+    reset,
     get schedules() { return schedules; },
     schedule_by_id,
     append,

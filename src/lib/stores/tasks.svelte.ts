@@ -74,7 +74,12 @@ export function create_tasks() {
     });
     return s_tasks;
   }
+
+  function reset() {
+    tasks = new SvelteMap();
+  }
   return {
+    reset,
     get tasks() { return tasks; },
     task_by_id,
     append,

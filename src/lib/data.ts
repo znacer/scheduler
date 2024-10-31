@@ -33,6 +33,8 @@ export function test_producer(nb_objects: number): TaskApiModel[] {
 
 export async function get_schedules() {
 	let data = await fetch_data();
+	schedules_store.reset();
+	tasks_store.reset();
 	data.forEach((s: ScheduleApiModel) => {
 		schedules_store.append({
 			id: s.id,
