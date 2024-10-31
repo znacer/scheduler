@@ -1,19 +1,11 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
-  import * as Select from "$lib/components/ui/select/index.js";
-  import {
-    colorHashMap,
-    ColorPalette,
-    random_color,
-  } from "$lib/stores/schedules.svelte";
+  import { ColorPalette, random_color } from "$lib/stores/schedules.svelte";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
   import Button from "./ui/button/button.svelte";
-  import Input from "./ui/input/input.svelte";
-  import Label from "./ui/label/label.svelte";
-  import Datetimepicker from "./datetimepicker.svelte";
-  import Durationpicker from "./durationpicker.svelte";
+  import TaskForm from "./taskForm.svelte";
 
   interface TaskCardProp {
     task: Task;
@@ -45,19 +37,12 @@
   }
 
   let form_values: Task = $state(JSON.parse(JSON.stringify(task)));
-  let task_end = $state(task.start + task.duration);
-  $effect(() => {
-    task_end = form_values.start + form_values.duration;
-    })
-  $effect(() => {
-    form_values.duration = task_end - form_values.start;
-  });
   let backgroundColor: ColorPalette = $state(random_color());
   $effect(() => {
     if (task.color) {
       backgroundColor = task.color;
     }
-  })
+  });
 </script>
 
 <Dialog.Root>
@@ -100,45 +85,7 @@
         >Détails et modification de la tâche</Dialog.Description
       >
     </Dialog.Header>
-    <div class="flex flex-col gap-4 py-4">
-      <div class="flex flex-row items-center gap-4">
-        <Label for="name" class="text-right">Name</Label>
-        <Input id="name" bind:value={form_values.name} class="col-span-3" />
-      </div>
-      <div class="flex flex-row items-center gap-4">
-        <Label for="start" class="text-right">Début</Label>
-        <Datetimepicker bind:timestamp={form_values.start} />
-      </div>
-      <div class="flex flex-row items-center gap-4">
-        <Label for="duration" class="text-right">Durée</Label>
-        <Durationpicker bind:duration={form_values.duration}/>
-      </div>
-      <div class="flex flex-row items-center gap-4">
-        <Label for="end" class="text-right">Fin</Label>
-        <Datetimepicker bind:timestamp={task_end} />
-      </div>
-      <div class="flex flex-row items-center gap-4">
-        <Label for="color" class="text-right">Couleur</Label>
-        <Select.Root
-          onSelectedChange={(e) => {
-            if (e !== undefined) {
-              form_values.color = e.value as ColorPalette
-            }
-          }}
-        >
-          <Select.Trigger>
-            <Select.Value placeholder={backgroundColor} />
-          </Select.Trigger>
-          <Select.Content>
-            <Select.Group>
-              {#each colorHashMap as [k, color]}
-                <Select.Item value={color}>{k}</Select.Item>
-              {/each}
-            </Select.Group>
-          </Select.Content>
-        </Select.Root>
-      </div>
-    </div>
+    <TaskForm bind:form_values />
     <Dialog.Footer>
       <Button
         type="submit"
