@@ -1,4 +1,8 @@
 <script lang="ts">
+  import Button from "./ui/button/button.svelte";
+  import Input from "./ui/input/input.svelte";
+  import Label from "./ui/label/label.svelte";
+
   interface DurationPickerProps {
     /** Duration in minutes */
     duration: number;
@@ -72,62 +76,44 @@
     }
   }
 
-  const label_class = "block text-sm font-medium text-primary";
-  const input_class =
-    "block w-20 text-primary-foreground rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm text-center";
+  const label_class = "text-sm text-primary";
 </script>
 
 <div class="space-y-4">
   <!-- Duration inputs -->
   <div class="flex items-center gap-4">
-    <div class="space-y-2">
-      <label for="days" class={label_class}>Jours</label>
-      <input
+    <div class="space-y-2 flex flex-col">
+      <Label for="days" class={label_class}>Jours</Label>
+      <Input
         type="number"
         id="days"
         min="0"
         max={Math.floor(maxDuration / MINUTES_PER_DAY)}
-        class={input_class}
         bind:value={days}
       />
     </div>
 
     <div class="space-y-2">
-      <label for="hours" class={label_class}>Heures</label>
-      <input
-        type="number"
-        id="hours"
-        min="0"
-        max="23"
-        class={input_class}
-        bind:value={hours}
-      />
+      <Label for="hours" class={label_class}>Heures</Label>
+      <Input type="number" id="hours" min="0" max="23" bind:value={hours} />
     </div>
 
     <div class="space-y-2">
-      <label for="minutes" class={label_class}>Minutes</label>
-      <input
-        type="number"
-        id="minutes"
-        min="0"
-        max="59"
-        class={input_class}
-        bind:value={minutes}
-      />
+      <Label for="minutes" class={label_class}>Minutes</Label>
+      <Input type="number" id="minutes" min="0" max="59" bind:value={minutes} />
     </div>
   </div>
 
   <!-- Quick presets -->
   <div class="flex gap-2">
     {#each presets as preset}
-      <button
+      <Button
         type="button"
-        class="inline-flex items-center px-3 py-1 border border-primary shadow-sm text-sm font-medium rounded-md text-primary-foreground bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
         onclick={() => applyPreset(preset.minutes)}
         disabled={preset.minutes > maxDuration || preset.minutes < minDuration}
       >
         {preset.label}
-      </button>
+      </Button>
     {/each}
   </div>
 
