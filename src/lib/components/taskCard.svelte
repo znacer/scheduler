@@ -45,7 +45,14 @@
   });
 </script>
 
-<Dialog.Root>
+<Dialog.Root
+  onOpenChange={(e) => {
+    // make sure everything updates correctly if a changed occured since last time form was loaded
+    if (e) {
+      form_values = JSON.parse(JSON.stringify(task));
+    }
+  }}
+>
   <Dialog.Trigger>
     <div
       class="taskcard border p-1 border-primary text-primary-foreground shadow rounded-2xl overflow-hidden"
