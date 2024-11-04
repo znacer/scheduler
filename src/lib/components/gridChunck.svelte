@@ -51,7 +51,7 @@
     </div>
     <div class="absolute">
       {#each tasks_store.from_schedule(schedule_id) as [_, task]}
-        {#if task.start >= grid_layout_store.start && task.start < grid_layout_store.start + grid_layout_store.nb_columns * grid_layout_store.millisec_by_cell}
+        {#if task.start >= grid_layout_store.start || task.start < grid_layout_store.start + grid_layout_store.nb_columns * grid_layout_store.millisec_by_cell}
           <TaskCard {task} {schedule_id} />
         {/if}
       {/each}
