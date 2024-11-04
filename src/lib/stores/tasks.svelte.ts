@@ -78,12 +78,17 @@ export function create_tasks() {
   function reset() {
     tasks = new SvelteMap();
   }
+
+  function new_task(schedule_id: number, name: string, start: number, duration: number): Task {
+    return { id: 0, schedule_id, name, start, duration } as Task;
+  }
   return {
     reset,
     get tasks() { return tasks; },
     task_by_id,
     append,
     from_schedule,
+    new_task,
   }
 }
 

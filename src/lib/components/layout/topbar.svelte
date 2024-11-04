@@ -8,6 +8,7 @@
   import { parseAbsoluteToLocal } from "@internationalized/date";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { get_schedules } from "$lib/data";
+  import NewTask from "$lib/components/layout/new-task.svelte";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -67,6 +68,9 @@
     </Menubar.Content>
   </Menubar.Menu>
 
+  <Menubar.Menu>
+    <NewTask />
+  </Menubar.Menu>
   <Menubar.Menu>
     <Menubar.Trigger>Pédiode</Menubar.Trigger>
     <Menubar.Content>
