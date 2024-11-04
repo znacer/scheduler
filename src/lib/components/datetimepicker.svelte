@@ -3,7 +3,7 @@
   import {
     type ZonedDateTime,
     DateFormatter,
-    parseAbsoluteToLocal,
+    parseAbsolute,
   } from "@internationalized/date";
   import * as Popover from "./ui/popover";
   import Button from "./ui/button/button.svelte";
@@ -45,7 +45,7 @@
   $effect(() => {
     if (timestamp) {
       const date = new Date(timestamp);
-      const zonedDate = parseAbsoluteToLocal(date.toISOString());
+      const zonedDate = parseAbsolute(date.toISOString(), grid_layout_store.tz);
       selectedDate = zonedDate;
     }
   });
@@ -88,8 +88,9 @@
           initialFocus
           onValueChange={() => {
             if (selectedDate === undefined) {
-              selectedDate = parseAbsoluteToLocal(
+              selectedDate = parseAbsolute(
                 new Date(timestamp).toISOString(),
+                grid_layout_store.tz,
               );
             }
             timestamp = selectedDate.toDate().getTime();
@@ -101,8 +102,9 @@
             type="single"
             onValueChange={(hour) => {
               if (selectedDate === undefined) {
-                selectedDate = parseAbsoluteToLocal(
+                selectedDate = parseAbsolute(
                   new Date(timestamp).toISOString(),
+                  grid_layout_store.tz,
                 );
               }
               selectedDate = selectedDate.set({ hour: parseInt(hour) });
@@ -123,8 +125,9 @@
             type="single"
             onValueChange={(minute) => {
               if (selectedDate === undefined) {
-                selectedDate = parseAbsoluteToLocal(
+                selectedDate = parseAbsolute(
                   new Date(timestamp).toISOString(),
+                  grid_layout_store.tz,
                 );
               }
               selectedDate = selectedDate.set({ minute: parseInt(minute) });
