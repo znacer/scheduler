@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"@date-fns/tz": "^1.2.0",
+		"@tanstack/table-core": "^8.20.5",
 		"date-fns": "^4.1.0",
 		"eslint": "^9.13.0",
 		"lucide-svelte": "^0.453.0",
