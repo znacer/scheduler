@@ -9,8 +9,9 @@
 - [x] Multiple zooms
 - [x] datetimepicker = P1 !
 - [x] durationpicker = P1 !
+- [x] Edit timeline
+- [ ] Page list tasks with filters
 - [ ] Select all timelines
-- [ ] Edit timeline
 - [ ] Add new task
 - [ ] Collapse a schedule -> 1 line = sum of tasks
 - [ ] Link to map
