@@ -16,7 +16,7 @@
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger>
+  <Dialog.Trigger class="h-full w-full">
     <p class="h-full content-center indent-4">
       {schedules_store.name(schedule_id)}
     </p>

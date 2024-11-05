@@ -28,20 +28,27 @@
         >Détails et modification de la tâche</Dialog.Description
       >
     </Dialog.Header>
-    <Select.Root bind:value={form_values.schedule_id}>
+    <Select.Root
+      type="single"
+      value={form_values.schedule_id.toString()}
+      onValueChange={(v) => {
+        form_values.schedule_id = parseInt(v);
+      }}
+    >
       <Select.Trigger class="w-[180px]">
-        <Select.Value placeholder="Choisir une timeline" />
+        {form_values.schedule_id > 0
+          ? schedules_store.name(form_values.schedule_id)
+          : "Choisir une timeline"}
       </Select.Trigger>
       <Select.Content>
         <Select.Group>
           {#each schedules_store.schedules as [schedule_id, schedule]}
-            <Select.Item value={schedule_id} label={schedule.name}>
+            <Select.Item value={schedule_id.toString()} label={schedule.name}>
               {schedule.name}
             </Select.Item>
           {/each}
         </Select.Group>
       </Select.Content>
-      <Select.Input name="favoriteFruit" />
     </Select.Root>
     <TaskForm bind:form_values />
     <Dialog.Footer>
