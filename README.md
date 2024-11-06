@@ -1,6 +1,7 @@
 # Scheduler frontend app
 
 ## TODO
+
 - [x] Navigate left and right from timerange
 - [x] View multiple timelines
 - [x] Select timelines user wants to see

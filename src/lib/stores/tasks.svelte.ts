@@ -2,24 +2,28 @@ import { SvelteMap } from "svelte/reactivity";
 import type { ColorPalette } from "./schedules.svelte";
 
 export interface Task {
-  id: number,
-  schedule_id: number,
-  name: string,
-  start: number,
-  duration: number,
-  color?: ColorPalette,
-  status?: boolean,
-  qualops?: boolean
+  id: number;
+  schedule_id: number;
+  name: string;
+  start: number;
+  duration: number;
+  color?: ColorPalette;
+  status?: boolean;
+  qualops?: boolean;
 }
 
-export function arrange_schedule_lines(tasks: Map<number, Task>): Map<number, number> {
+export function arrange_schedule_lines(
+  tasks: Map<number, Task>,
+): Map<number, number> {
   // attribute a line to each task such as they do not over lap.
   // returns the number of line needed
   let visited_tasks: number[] = [];
   let nb_lines = 1;
   let lines: Map<number, number> = new Map();
 
-  tasks.forEach((_, k) => { lines.set(k, 0) }); // inialize all tasks on the first line
+  tasks.forEach((_, k) => {
+    lines.set(k, 0);
+  }); // inialize all tasks on the first line
   [...tasks.values()].sort((t1: Task, t2: Task) => t1.start - t2.start).forEach(
     (t, idx) => {
       if (idx !== 0) {
@@ -49,15 +53,13 @@ export function arrange_schedule_lines(tasks: Map<number, Task>): Map<number, nu
         lines.set(t.id, 0);
       }
       visited_tasks.push(t.id);
-    }
+    },
   );
   return lines;
-
 }
 
 export function create_tasks() {
-
-  let tasks: SvelteMap<number, Task> = $state(new SvelteMap())
+  let tasks: SvelteMap<number, Task> = $state(new SvelteMap());
 
   function task_by_id(id: number): Task | undefined {
     return tasks.get(id);
@@ -81,17 +83,24 @@ export function create_tasks() {
     tasks = new SvelteMap();
   }
 
-  function new_task(schedule_id: number, name: string, start: number, duration: number): Task {
+  function new_task(
+    schedule_id: number,
+    name: string,
+    start: number,
+    duration: number,
+  ): Task {
     return { id: 0, schedule_id, name, start, duration } as Task;
   }
   return {
     reset,
-    get tasks() { return tasks; },
+    get tasks() {
+      return tasks;
+    },
     task_by_id,
     append,
     from_schedule,
     new_task,
-  }
+  };
 }
 
 export const tasks_store = create_tasks();

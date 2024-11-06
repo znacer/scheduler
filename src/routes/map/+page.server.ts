@@ -1,4 +1,4 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
   return {
@@ -27,6 +27,6 @@ export const load: PageServerLoad = async () => {
         name: "WP04",
         description: undefined,
       },
-    ]
+    ],
   };
 };
