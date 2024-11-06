@@ -1,6 +1,7 @@
 <script lang="ts">
   import { setMode, mode } from "mode-watcher";
   import { endOfDay } from "date-fns";
+  import { page } from "$app/stores";
   import * as Menubar from "$lib/components/ui/menubar/index";
   import Tzmenu from "./tzmenu.svelte";
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index";
@@ -39,6 +40,17 @@
         grid_layout_store.set_zoom(Zoom.HOUR);
     }
   });
+
+  let view = $state("timeline");
+  $effect(() => {
+    switch ($page.url.pathname) {
+      case "/tasks":
+        view = "table";
+        break;
+      default:
+        view = "timeline";
+    }
+  });
 </script>
 
 <Menubar.Root class="bg-background z-50">
@@ -68,6 +80,19 @@
     </Menubar.Content>
   </Menubar.Menu>
 
+  <Menubar.Menu>
+    <Menubar.Trigger>Vue</Menubar.Trigger>
+    <Menubar.Content>
+      <Menubar.RadioGroup bind:value={view}>
+        <Menubar.RadioItem value="timeline">
+          <a href="/" class="w-full h-full"> Frise </a>
+        </Menubar.RadioItem>
+        <Menubar.RadioItem value="table">
+          <a href="/tasks" class="w-full h-full"> Tableau </a>
+        </Menubar.RadioItem>
+      </Menubar.RadioGroup>
+    </Menubar.Content>
+  </Menubar.Menu>
   <Menubar.Menu>
     <NewTask />
   </Menubar.Menu>
@@ -107,5 +132,9 @@
         </Menubar.RadioItem>
       </Menubar.RadioGroup>
     </Menubar.Content>
+  </Menubar.Menu>
+  <Menubar.Menu>
+    <Menubar.Trigger>A propos</Menubar.Trigger>
+    <Menubar.Content>version ???</Menubar.Content>
   </Menubar.Menu>
 </Menubar.Root>

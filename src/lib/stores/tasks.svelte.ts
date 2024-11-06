@@ -8,6 +8,8 @@ export interface Task {
   start: number,
   duration: number,
   color?: ColorPalette,
+  status?: boolean,
+  qualops?: boolean
 }
 
 export function arrange_schedule_lines(tasks: Map<number, Task>): Map<number, number> {
