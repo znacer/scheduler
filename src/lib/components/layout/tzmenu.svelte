@@ -2,7 +2,7 @@
   import * as Menubar from "$lib/components/ui/menubar/index";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import {ScrollArea} from "$lib/components/ui/scroll-area/index";
-    import { CheckIcon } from "lucide-svelte";
+  import { CheckIcon } from "lucide-svelte";
 
   const all_tz_list = Intl.supportedValuesOf("timeZone");
   const all_zones = new Set();
@@ -22,20 +22,11 @@
       }
     }
   });
-  
-  let tz = $state(grid_layout_store.tz);
-  $effect(() => {
-    if (tz !== grid_layout_store.tz) {
-    }
-    })
-
 </script>
 
 <Menubar.Menu>
   <Menubar.Trigger>TimeZones</Menubar.Trigger>
   <Menubar.Content>
-    <!-- <Menubar.RadioGroup bind:value={tz}> -->
-
     <ScrollArea class="h-72 w-48">
       {#each all_tz as tzgroup}
         <Menubar.Sub>
@@ -72,6 +63,5 @@
         {/if}
       {/each}
     </ScrollArea>
-    <!-- </Menubar.RadioGroup> -->
   </Menubar.Content>
 </Menubar.Menu>

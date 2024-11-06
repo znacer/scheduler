@@ -10,7 +10,7 @@
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { get_schedules } from "$lib/data";
   import NewTask from "$lib/components/layout/new-task.svelte";
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -43,15 +43,15 @@
   });
 
   const routes = new Map();
-  routes.set("/", {value: "timeline", name: "Frise"});
-  routes.set("/tasks", {value: "tasks", name: "Tableau"});
-  routes.set("/map", {value: "map", name: "Carte"});
-  let view = $derived.by( () => {
+  routes.set("/", { value: "timeline", name: "Frise" });
+  routes.set("/tasks", { value: "tasks", name: "Tableau" });
+  routes.set("/map", { value: "map", name: "Carte" });
+  let view = $derived.by(() => {
     const possible_route = routes.get($page.url.pathname);
     if (possible_route) {
       return possible_route.value;
     } else {
-      return "timeline"
+      return "timeline";
     }
   });
   function handle_route(new_route: string) {
@@ -72,7 +72,6 @@
       <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
       <Menubar.Item>LOAD DATA (TODO)</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
-
       {#if schedules_store.ids().length > 0}
         <Menubar.CheckboxItem>Selectionner tout (TODO)</Menubar.CheckboxItem>
       {/if}
@@ -96,11 +95,11 @@
     <Menubar.Trigger>Vue</Menubar.Trigger>
     <Menubar.Content>
       <Menubar.RadioGroup value={view} onValueChange={handle_route}>
-      {#each routes.entries() as [_, v]}
-        <Menubar.RadioItem value={v.value} >
-          {v.name + " - " + view}
-        </Menubar.RadioItem>
-      {/each}
+        {#each routes.entries() as [_, v]}
+          <Menubar.RadioItem value={v.value}>
+            {v.name}
+          </Menubar.RadioItem>
+        {/each}
       </Menubar.RadioGroup>
     </Menubar.Content>
   </Menubar.Menu>
