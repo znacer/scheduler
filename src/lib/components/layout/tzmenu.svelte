@@ -2,6 +2,7 @@
   import * as Menubar from "$lib/components/ui/menubar/index";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import {ScrollArea} from "$lib/components/ui/scroll-area/index";
+    import { CheckIcon } from "lucide-svelte";
 
   const all_tz_list = Intl.supportedValuesOf("timeZone");
   const all_zones = new Set();
@@ -21,27 +22,37 @@
       }
     }
   });
+  
+  let tz = $state(grid_layout_store.tz);
+  $effect(() => {
+    if (tz !== grid_layout_store.tz) {
+    }
+    })
 
 </script>
 
 <Menubar.Menu>
   <Menubar.Trigger>TimeZones</Menubar.Trigger>
   <Menubar.Content>
-    <Menubar.RadioGroup value={grid_layout_store.tz}>
-      <ScrollArea class="h-72 w-48">
+    <!-- <Menubar.RadioGroup bind:value={tz}> -->
+
+    <ScrollArea class="h-72 w-48">
       {#each all_tz as tzgroup}
         <Menubar.Sub>
           <Menubar.SubTrigger>{tzgroup[0]}</Menubar.SubTrigger>
           <Menubar.SubContent>
             <ScrollArea class="h-72 w-48">
             {#each tzgroup[1] as tzelt}
-              <Menubar.RadioItem
-                value={tzgroup[0] + "/" + tzelt}
-                onclick={() => {
-                  grid_layout_store.set_tz(tzgroup[0] + "/" + tzelt);
-                }}>
-                {tzelt}
-              </Menubar.RadioItem>
+              <Menubar.Item
+                onclick={() => {grid_layout_store.set_tz(tzgroup[0] + "/" + tzelt)}}
+              >
+                {#if (grid_layout_store.tz === tzgroup[0] + "/" + tzelt)}
+                  <CheckIcon class="size-4"/>
+                  <p class="font-bold">{tzelt}</p>
+                {:else}
+                  <p>{tzelt}</p>
+                {/if}
+              </Menubar.Item>
             {/each}
             </ScrollArea>
           </Menubar.SubContent>
@@ -49,17 +60,18 @@
         </Menubar.Sub>
       {/each}
       {#each special_tz as tzelt, i}
-          <Menubar.RadioItem
-            value={tzelt as string}
+          <Menubar.Item
             onclick={() => {
               grid_layout_store.set_tz(tzelt as string);
-            }}>{tzelt}</Menubar.RadioItem
+            }}
           >
+            {tzelt}
+            </Menubar.Item >
         {#if i < special_tz.size - 1}
           <Menubar.Separator></Menubar.Separator>
         {/if}
       {/each}
-      </ScrollArea>
-    </Menubar.RadioGroup>
+    </ScrollArea>
+    <!-- </Menubar.RadioGroup> -->
   </Menubar.Content>
 </Menubar.Menu>

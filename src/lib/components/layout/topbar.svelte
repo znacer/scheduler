@@ -10,6 +10,7 @@
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { get_schedules } from "$lib/data";
   import NewTask from "$lib/components/layout/new-task.svelte";
+    import { goto } from "$app/navigation";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -41,16 +42,27 @@
     }
   });
 
-  let view = $state("timeline");
-  $effect(() => {
-    switch ($page.url.pathname) {
-      case "/tasks":
-        view = "table";
-        break;
-      default:
-        view = "timeline";
+  const routes = new Map();
+  routes.set("/", {value: "timeline", name: "Frise"});
+  routes.set("/tasks", {value: "tasks", name: "Tableau"});
+  routes.set("/map", {value: "map", name: "Carte"});
+  let view = $derived.by( () => {
+    const possible_route = routes.get($page.url.pathname);
+    if (possible_route) {
+      return possible_route.value;
+    } else {
+      return "timeline"
     }
   });
+  function handle_route(new_route: string) {
+    let route = "/";
+    for (let [possible_route, elt] of routes.entries()) {
+      if (elt.value === new_route) {
+        route = possible_route;
+      }
+    }
+    goto(route);
+  }
 </script>
 
 <Menubar.Root class="bg-background z-50">
@@ -83,13 +95,12 @@
   <Menubar.Menu>
     <Menubar.Trigger>Vue</Menubar.Trigger>
     <Menubar.Content>
-      <Menubar.RadioGroup bind:value={view}>
-        <Menubar.RadioItem value="timeline">
-          <a href="/" class="w-full h-full"> Frise </a>
+      <Menubar.RadioGroup value={view} onValueChange={handle_route}>
+      {#each routes.entries() as [_, v]}
+        <Menubar.RadioItem value={v.value} >
+          {v.name + " - " + view}
         </Menubar.RadioItem>
-        <Menubar.RadioItem value="table">
-          <a href="/tasks" class="w-full h-full"> Tableau </a>
-        </Menubar.RadioItem>
+      {/each}
       </Menubar.RadioGroup>
     </Menubar.Content>
   </Menubar.Menu>
