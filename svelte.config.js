@@ -15,6 +15,11 @@ const config = {
     alias: {
       "@/*": "./path/to/lib/*",
     },
+    env: {
+      dir: ".",
+      publicPrefix: "PUBLIC_",
+      privatePrefix: ""
+    }
   },
 };
 

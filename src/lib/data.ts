@@ -1,6 +1,7 @@
 import { schedules_store } from "$lib/stores/schedules.svelte";
 import { type Task, tasks_store } from "$lib/stores/tasks.svelte";
 import { SvelteSet } from "svelte/reactivity";
+import { pim_store } from "./stores/pims.svelte";
 
 interface TaskApiModel {
   id: number;
@@ -52,6 +53,34 @@ export async function get_schedules() {
       schedules_store.set_task(s.id, t.id);
     });
   });
+
+
+  pim_store.append(1, [
+      {
+        position: [5.97, 43.05],
+        timestamp: 1729468800000,
+        name: "WP01",
+        description: undefined,
+      },
+      {
+        position: [5.92, 43],
+        timestamp: 1729468800000,
+        name: "WP02",
+        description: "une description",
+      },
+      {
+        position: [5.96, 43],
+        timestamp: 1729468800000,
+        name: "WP03",
+        description: undefined,
+      },
+      {
+        position: [6, 42.9],
+        timestamp: 1729468800000,
+        name: "WP04",
+        description: undefined,
+      },
+    ]);
 }
 async function fetch_data(): Promise<ScheduleApiModel[]> {
   const response = await fetch("/test");
