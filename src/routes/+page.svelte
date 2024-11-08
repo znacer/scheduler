@@ -25,22 +25,16 @@
   });
 </script>
 
-<div
-  class="flex flex-row w-full h-full overflow-x-scroll overflow-y-hidden pb-10"
->
+<div class="flex flex-row w-full h-full overflow-scroll pb-10">
   <div
     id="label-menu"
-    class="sticky left-0 z-10 w-1/6 h-full overflow-y-scroll overscroll-none"
+    class="sticky left-0 z-20 w-1/6 h-full"
     use:bindScrollY={{ scrollY }}
   >
     <GridLabels />
   </div>
-  <div
-    id="grid-timeline"
-    class="relative w-5/6 overflow-y-scroll overscroll-none"
-    use:bindScrollY={{ scrollY }}
-  >
-    <div class="sticky top-0 z-10 w-full">
+  <div id="grid-timeline" class="relative w-5/6" use:bindScrollY={{ scrollY }}>
+    <div class="sticky top-0 z-10">
       {#if grid_layout_store.zoom == Zoom.DAY}
         <div style="height: {grid_layout_store.axis_height}px;">
           <GridChunckAxis zoom={Zoom.WEEK} />

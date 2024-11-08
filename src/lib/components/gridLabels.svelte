@@ -32,7 +32,7 @@
   {/if}
 </div>
 
-<div class="relative z-0">
+<div class="relative z-0 bg-background">
   {#each schedules_store.are_checked() as [k, v]}
     {#if v}
       <ChunckLabel
