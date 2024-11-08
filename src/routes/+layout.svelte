@@ -11,14 +11,12 @@
 </script>
 
 <ModeWatcher></ModeWatcher>
-<div class="h-dvh w-screen overflow-auto">
-<header class="pb-1 fixed w-full z-50" bind:clientHeight={top_height}>
+<div class="fixed h-screen w-screen overflow-hidden bg-background">
+<header class="pb-1 relative w-full z-50" bind:clientHeight={top_height}>
   <Topbar />
 </header>
 
-<main class="h-svh pb-2 overflow-scroll z-0" >
-  <div style="height: {top_height}px;">
-  </div>
+<main class="h-full pb-2 overflow-hidden z-0" >
   {@render children()}
 </main>
 </div>
