@@ -1,15 +1,18 @@
 <script lang="ts">
+	import { pim_store } from "$lib/stores/pims.svelte";
+	import PimForm from "./pim-form.svelte";
 	import Plot from "./plot.svelte";
-	import type { PageData } from "./$types";
-	import type { Waypoint } from "./utils";
 
-	let { in_data }: { in_data: PageData } = $props();
-	let data: Waypoint[] = $derived.by(() => {
-		if (in_data !== undefined) {
-			return in_data.pims as Waypoint[];
-		}
-		return [];
-	});
+	let form_values = $derived(pim_store.pim_by_id(1));
 </script>
 
-<Plot />
+<div class="relative h-4/6 w-full">
+	<Plot />
+</div>
+<div class="relative h-2/6 w-full">
+	{#if form_values}
+		{#if form_values.length > 0}
+			<PimForm pim={form_values} />
+		{/if}
+	{/if}
+</div>
