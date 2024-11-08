@@ -64,23 +64,22 @@
   });
 </script>
 
-<div class="flex flex-row" style="height: {grid_layout_store.axis_height}px">
-  <div class="relative">
-    <div class="absolute flex h-full">
-      {#each dates as d_elt}
-        <p
-          class="text-center text-sm content-center border border-primary z-10"
-          style="
+<div
+  class="flex bg-background"
+  style="height: {grid_layout_store.axis_height}px"
+>
+  <!-- DO NOT REMOVE ANY OF THE DIV -->
+  <div class="flex bg-background">
+    {#each dates as d_elt}
+      <p
+        class="text-center text-sm content-center border border-primary z-10"
+        style="
           width: {d_elt[1] * grid_layout_store.cell_width}px;
           "
-        >
-          {(zoom == Zoom.WEEK ? "S" : "") +
-            format(
-              TZDate.tz(utc ? "utc" : grid_layout_store.tz, d_elt[0]),
-              fmt,
-            )}
-        </p>
-      {/each}
-    </div>
+      >
+        {(zoom == Zoom.WEEK ? "S" : "") +
+          format(TZDate.tz(utc ? "utc" : grid_layout_store.tz, d_elt[0]), fmt)}
+      </p>
+    {/each}
   </div>
 </div>

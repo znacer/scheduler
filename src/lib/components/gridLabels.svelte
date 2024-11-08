@@ -5,7 +5,7 @@
   import ScheduleDialog from "./scheduleDialog.svelte";
 </script>
 
-<div id="label-menu" class="w-64">
+<div class="sticky top-0 bg-background z-10">
   {#if grid_layout_store.zoom == Zoom.DAY}
     <ChunckLabel height={grid_layout_store.axis_height}>
       <p class="h-full content-center indent-4">Semaine</p>
@@ -30,7 +30,9 @@
       </p>
     </ChunckLabel>
   {/if}
+</div>
 
+<div class="relative z-0">
   {#each schedules_store.are_checked() as [k, v]}
     {#if v}
       <ChunckLabel
