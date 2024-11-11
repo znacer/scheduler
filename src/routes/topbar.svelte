@@ -125,7 +125,9 @@
       </Menubar.RadioGroup>
     </Menubar.Content>
   </Menubar.Menu>
-  <div class="grow"></div>
+  <div class="grow">
+  <p class="w-full text-center font-bold text-accent-foreground">Fuseau actuel: {grid_layout_store.tz}</p>
+  </div>
   <Menubar.Menu>
     <Menubar.Trigger>Theme</Menubar.Trigger>
     <Menubar.Content>
