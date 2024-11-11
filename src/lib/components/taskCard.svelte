@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade, fly } from "svelte/transition";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import { ColorPalette, random_color } from "$lib/stores/schedules.svelte";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
@@ -55,7 +56,7 @@
 >
   <Dialog.Trigger>
     <div
-      class="taskcard border p-1 border-primary text-primary-foreground shadow rounded-2xl overflow-hidden"
+      class="taskcard border p-1 border-primary text-primary-foreground shadow rounded-2xl overflow-hidden cursor-pointer"
       style="
         position: absolute;
         top: {schedules_store.task_line(task.id) *
@@ -67,6 +68,18 @@
         height: {grid_layout_store.cell_height}px;  
         background-color:  {backgroundColor};
       "
+      in:fly|global={{
+        x: -(
+          ((task.start - grid_layout_store.start) *
+            grid_layout_store.cell_width) /
+          grid_layout_store.millisec_by_cell
+        ),
+        y: -(
+          schedules_store.task_line(task.id) * grid_layout_store.cell_height
+        ),
+        delay: 100,
+        duration: 1000,
+      }}
     >
       <p class="text-base text-red-500 font-mono font-bold">
         {task.name}

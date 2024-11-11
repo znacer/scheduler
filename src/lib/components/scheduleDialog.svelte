@@ -4,6 +4,7 @@
   import Button from "./ui/button/button.svelte";
   import Input from "./ui/input/input.svelte";
   import { Label } from "./ui/label";
+  import { slide } from "svelte/transition";
 
   interface ScheduleDialogProps {
     schedule_id: number;
@@ -17,7 +18,7 @@
 
 <Dialog.Root>
   <Dialog.Trigger class="h-full w-full">
-    <p class="h-full content-center indent-4">
+    <p class="h-full content-center indent-4" transition:slide|global>
       {schedules_store.name(schedule_id)}
     </p>
   </Dialog.Trigger>
