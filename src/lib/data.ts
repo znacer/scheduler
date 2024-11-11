@@ -36,6 +36,7 @@ export async function get_schedules() {
   let data = await fetch_data();
   schedules_store.reset();
   tasks_store.reset();
+  pim_store.reset();
   data.forEach((s: ScheduleApiModel) => {
     schedules_store.append({
       id: s.id,
@@ -81,6 +82,12 @@ export async function get_schedules() {
       description: undefined,
     },
   ]);
+}
+export function reset_data() {
+  schedules_store.reset();
+  tasks_store.reset();
+  pim_store.reset();
+
 }
 async function fetch_data(): Promise<ScheduleApiModel[]> {
   const response = await fetch("/test");
