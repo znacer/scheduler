@@ -2,7 +2,7 @@
   import { fr } from 'date-fns/locale';
   import { ModeWatcher } from "mode-watcher";
   import "../app.css";
-  import Topbar from "$lib/components/layout/topbar.svelte";
+  import Topbar from "./topbar.svelte";
   import { setDefaultOptions } from 'date-fns';
 
   setDefaultOptions({ locale: fr})

@@ -8,8 +8,8 @@
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { parseAbsoluteToLocal } from "@internationalized/date";
   import { schedules_store } from "$lib/stores/schedules.svelte";
-  import { get_schedules } from "$lib/data";
-  import NewTask from "$lib/components/layout/new-task.svelte";
+  import { get_schedules, reset_data } from "$lib/data";
+  import NewTask from "$lib/components/new-task.svelte";
   import { goto } from "$app/navigation";
 
   setMode("system");
@@ -70,6 +70,7 @@
     <Menubar.Trigger>Calendriers</Menubar.Trigger>
     <Menubar.Content>
       <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
+      <Menubar.Item onclick={reset_data}>RESET</Menubar.Item>
       <Menubar.Item>LOAD DATA (TODO)</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
       {#if schedules_store.ids().length > 0}
