@@ -1,7 +1,6 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+  import type { Snippet } from "svelte";
 
-  // let { contentText }: { contentText: string } = $props();
   let { children, height }: {children: Snippet, height: number} = $props()
 </script>
 

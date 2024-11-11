@@ -1,6 +1,7 @@
 <script lang="ts">
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
+  import { fly } from "svelte/transition";
   import ChunckLabel from "./chucks/chunckLabel.svelte";
   import ScheduleDialog from "./scheduleDialog.svelte";
 </script>
