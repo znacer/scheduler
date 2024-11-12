@@ -7,18 +7,20 @@
 
   setDefaultOptions({ locale: fr})
   let { children } = $props();
-  let top_height = $state();
+  let height = $state(0);
+  let nav_height = $state(0);
 </script>
 
 <ModeWatcher></ModeWatcher>
-<div class="fixed h-screen w-screen overflow-hidden bg-background">
-<header class="pb-1 relative w-full z-50" bind:clientHeight={top_height}>
-  <Topbar />
-</header>
+<svelte:window bind:innerHeight={height} />
+<div class=" w-full flex flex-col overflow-clip bg-background" style="height: {height}px">
+  <nav class="relative top-0 pb-1 w-full z-50" bind:clientHeight={nav_height}>
+    <Topbar />
+  </nav>
 
-<main class="h-full pb-2 overflow-hidden z-0" >
-  {@render children()}
-</main>
+  <main class="relative z-0 overflow-clip w-full pb-1" style="height: {height - nav_height}px">
+    {@render children()}
+  </main>
 </div>
 
 <style>

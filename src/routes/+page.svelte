@@ -4,36 +4,13 @@
   import GridChunk from "$lib/components/gridChunck.svelte";
   import GridChunckAxis from "$lib/components/chucks/gridChunckAxis.svelte";
   import GridLabels from "$lib/components/gridLabels.svelte";
-
-  let scrollY = $state(0);
-  const bindScrollY = (node: HTMLElement, val: { scrollY: number }) => {
-    $effect(() => {
-      node.scrollTop = scrollY;
-    });
-    const handle = (e: any) => {
-      scrollY = e.target.scrollTop;
-    };
-    node.addEventListener("scroll", handle);
-    return {
-      destroy: () => removeEventListener("scroll", handle),
-    };
-  };
-  $inspect(scrollY);
-  $effect(() => {
-    document.getElementById("label-menu")?.scrollTo(0, scrollY);
-    document.getElementById("grid-timeline")?.scrollTo(0, scrollY);
-  });
 </script>
 
-<div class="flex flex-row w-full h-full overflow-scroll pb-10">
-  <div
-    id="label-menu"
-    class="sticky left-0 z-20 w-1/6 h-full"
-    use:bindScrollY={{ scrollY }}
-  >
+<div class="flex flex-row pb-1 h-full overflow-auto">
+  <div id="label-menu" class="sticky left-0 z-20 w-1/6 h-fit">
     <GridLabels />
   </div>
-  <div id="grid-timeline" class="relative w-5/6" use:bindScrollY={{ scrollY }}>
+  <div id="grid-timeline" class="relative w-5/6 h-fit">
     <div class="sticky top-0 z-10">
       {#if grid_layout_store.zoom == Zoom.DAY}
         <div style="height: {grid_layout_store.axis_height}px;">
@@ -57,7 +34,7 @@
         </div>
       {/if}
     </div>
-    <div class="relative h-full w-full z-0">
+    <div class="relative h-fit w-fit z-0">
       {#each schedules_store.are_checked() as [k, v]}
         {#if v}
           <GridChunk schedule_id={k} />
