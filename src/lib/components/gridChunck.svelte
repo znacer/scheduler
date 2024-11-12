@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slide } from "svelte/transition";
+  import { scale } from "svelte/transition";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { tasks_store } from "$lib/stores/tasks.svelte";
@@ -21,7 +21,10 @@
 <div
   class="relative flex flex-row w-full h-fit"
   style="height: {nb_lines * grid_layout_store.cell_height}px"
-  transition:slide|global
+  transition:scale|global={{
+    delay: 100,
+    duration: 1000,
+  }}
 >
   <div class="absolute">
     <svg id="grid" {width} {height} xmlns="http://www.w3.org/2000/svg">

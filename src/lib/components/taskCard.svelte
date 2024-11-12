@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
+  import { fly } from "svelte/transition";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import { ColorPalette, random_color } from "$lib/stores/schedules.svelte";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
@@ -56,16 +56,26 @@
 >
   <Dialog.Trigger>
     <div
-      class="taskcard border p-1 border-primary text-primary-foreground shadow rounded-2xl overflow-hidden cursor-pointer"
+      class="
+        p-1
+        text-primary-foreground
+        rounded-2xl
+        overflow-hidden
+        cursor-pointer
+        hover:border-2
+        hover:border-accent-foreground
+        hover:scale-110
+      "
       style="
         position: absolute;
         top: {schedules_store.task_line(task.id) *
-        grid_layout_store.cell_height}px;  
+        grid_layout_store.cell_height +
+        1}px;  
         left: {((task.start - grid_layout_store.start) *
         grid_layout_store.cell_width) /
         grid_layout_store.millisec_by_cell}px;  
         width: {task_width(task)}px;  
-        height: {grid_layout_store.cell_height}px;  
+        height: {grid_layout_store.cell_height - 2}px;  
         background-color:  {backgroundColor};
       "
       in:fly|global={{
@@ -77,15 +87,15 @@
         y: -(
           schedules_store.task_line(task.id) * grid_layout_store.cell_height
         ),
-        delay: 100,
+        delay: 500,
         duration: 1000,
       }}
     >
-      <p class="text-base text-red-500 font-mono font-bold">
+      <p class="text-base text-primary-foreground font-mono font-bold">
         {task.name}
       </p>
 
-      <p class="font-mono text-xs">
+      <p class="font-mono text-xs text-secondary-foreground">
         {new Intl.DateTimeFormat("fr", {
           timeStyle: "short",
           timeZone: grid_layout_store.tz,
