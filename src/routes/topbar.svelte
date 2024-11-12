@@ -11,6 +11,7 @@
   import { get_schedules, reset_data } from "$lib/data";
   import NewTask from "$lib/components/new-task.svelte";
   import { goto } from "$app/navigation";
+    import { ChartGantt } from "lucide-svelte";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -65,7 +66,8 @@
   }
 </script>
 
-<Menubar.Root class="bg-background z-50">
+<Menubar.Root class="bg-secondary px-2 rounded-none border-x-0 border-t-0">
+  <ChartGantt />
   <Menubar.Menu>
     <Menubar.Trigger>Calendriers</Menubar.Trigger>
     <Menubar.Content>
