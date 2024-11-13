@@ -2,6 +2,7 @@ import { schedules_store, type Schedule } from "$lib/stores/schedules.svelte";
 import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
 import { SvelteSet } from "svelte/reactivity";
 import { pim_store } from "./stores/pims.svelte";
+import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 interface TaskRequest {
   id: number;
@@ -20,10 +21,10 @@ interface ScheduleRequest {
 }
 
 export async function get_data() {
-  const res_schedules = await fetch(`http://localhost:8081/scheduler/list-schedules`);
+  const res_schedules = await fetch(`${PUBLIC_BACKEND_URL}/list-schedules`);
   const schedules: ScheduleRequest[] = await res_schedules.json();
 
-  const res_tasks = await fetch(`http://localhost:8081/scheduler/list-tasks`);
+  const res_tasks = await fetch(`${PUBLIC_BACKEND_URL}/list-tasks`);
   const tasks: TaskRequest[] = await res_tasks.json();
 
   schedules_store.reset();
@@ -75,10 +76,88 @@ export async function get_data() {
     },
   ]);
 }
+
 export function reset_data() {
   schedules_store.reset();
   tasks_store.reset();
   pim_store.reset();
-
 }
+
+
+function transform_task(t: Task): TaskRequest {
+  return {
+    id: t.id,
+    name: t.name,
+    description: "",
+    start: t.start,
+    duration: t.duration,
+    category: 0,
+    schedule_id: t.schedule_id,
+  };
+}
+
+export async function new_task(t: Task): Promise<TaskRequest> {
+  const body = JSON.stringify(transform_task(t))
+  const request_options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  };
+  const res = await fetch(`${PUBLIC_BACKEND_URL}/new-task`, request_options);
+  const data = await res.json();
+  return JSON.parse(data);
+}
+
+export async function update_task(t: Task) {
+  const body = JSON.stringify(transform_task(t))
+  const request_options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  };
+  await fetch(`${PUBLIC_BACKEND_URL}/update-task`, request_options);
+}
+
+export async function update_all_tasks() {
+  for (let [_, t] of tasks_store.tasks) {
+    update_task(t)
+  }
+}
+
+function transform_schedule(s: Schedule): ScheduleRequest {
+  return {
+    id: s.id,
+    name: s.name ? s.name : s.id.toString(),
+    description: ""
+  };
+}
+
+export async function new_schedule(s: Schedule): Promise<ScheduleRequest> {
+  let body = JSON.stringify(transform_schedule(s))
+  const request_options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  };
+  const res = await fetch(`${PUBLIC_BACKEND_URL}/scheduler/new-schedule`, request_options);
+  const data = await res.json();
+  return data;
+}
+export async function update_schedule(s: Schedule) {
+  const body = JSON.stringify(transform_schedule(s))
+  const request_options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body
+  };
+  await fetch(`${PUBLIC_BACKEND_URL}/update-schedule`, request_options);
+}
+
+
+export async function update_all_schedules() {
+  for (let [_, s] of schedules_store.schedules) {
+    update_schedule(s)
+  }
+}
+
 
