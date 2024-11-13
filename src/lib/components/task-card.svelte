@@ -7,7 +7,7 @@
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
   import Button from "./ui/button/button.svelte";
-  import TaskForm from "./taskForm.svelte";
+  import TaskForm from "./task-form.svelte";
 
   interface TaskCardProp {
     task: Task;

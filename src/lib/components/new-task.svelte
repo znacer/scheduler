@@ -2,7 +2,7 @@
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
   import * as data from "$lib/data";
-  import TaskForm from "$lib/components/taskForm.svelte";
+  import TaskForm from "$lib/components/task-form.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";

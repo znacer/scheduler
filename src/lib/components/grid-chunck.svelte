@@ -3,15 +3,13 @@
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { tasks_store } from "$lib/stores/tasks.svelte";
-  import TaskCard from "./taskCard.svelte";
+  import TaskCard from "./task-card.svelte";
 
   let { schedule_id }: { schedule_id: number } = $props();
-  schedules_store.arrange_lines(schedule_id);
-  let nb_lines = $derived(schedules_store.nb_lines(schedule_id));
   $effect(() => {
     schedules_store.arrange_lines(schedule_id);
   });
-
+  let nb_lines = $derived(schedules_store.nb_lines(schedule_id));
   let height = $derived(nb_lines * grid_layout_store.cell_height);
   let width = $derived(
     grid_layout_store.nb_columns * grid_layout_store.cell_width,

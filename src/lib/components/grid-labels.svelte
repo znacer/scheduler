@@ -1,8 +1,8 @@
 <script lang="ts">
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
-  import ChunckLabel from "./chucks/chunckLabel.svelte";
-  import ScheduleDialog from "./scheduleDialog.svelte";
+  import ChunckLabel from "./chucks/chunck-label.svelte";
+  import ScheduleDialog from "./schedule-dialog.svelte";
 </script>
 
 <div class="sticky top-0 bg-background z-10">

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
-  import GridChunk from "$lib/components/gridChunck.svelte";
-  import GridChunckAxis from "$lib/components/chucks/gridChunckAxis.svelte";
-  import GridLabels from "$lib/components/gridLabels.svelte";
+  import GridChunk from "$lib/components/grid-chunck.svelte";
+  import GridChunckAxis from "$lib/components/chucks/grid-chunck-axis.svelte";
+  import GridLabels from "$lib/components/grid-labels.svelte";
 </script>
 
 <div class="flex flex-row pb-1 h-full overflow-auto">
