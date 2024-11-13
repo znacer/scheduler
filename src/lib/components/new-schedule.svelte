@@ -1,65 +1,46 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
-  import * as Select from "$lib/components/ui/select/index.js";
-  import TaskForm from "$lib/components/taskForm.svelte";
-  import Button from "$lib/components/ui/button/button.svelte";
-  import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
-  import { schedules_store } from "$lib/stores/schedules.svelte";
+  import * as data from "$lib/data";
+  import { schedules_store, type Schedule } from "$lib/stores/schedules.svelte";
+  import { SvelteSet } from "svelte/reactivity";
+  import Button from "./ui/button/button.svelte";
+  import Input from "./ui/input/input.svelte";
+  import { Label } from "./ui/label";
 
-  let form_values: Task = $state({
+  let form_values: Schedule = $state({
     id: -1,
-    name: "",
-    start: new Date().getTime(),
-    duration: 15 * 60 * 1000,
-    schedule_id: -1,
-    color: undefined,
+    name: "Nouvelle tâche",
+    tasks: new SvelteSet(),
   });
 </script>
 
 <Dialog.Root>
-  <Dialog.Trigger
-    class="hover:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default select-none items-center rounded-sm px-3 py-1 text-sm font-medium outline-none"
-    >Nouvelle tâche</Dialog.Trigger
-  >
+  <Dialog.Trigger class="h-full w-full">Nouvelle timeline</Dialog.Trigger>
   <Dialog.Content>
     <Dialog.Header>
-      <Dialog.Title>Nouvelle tâche</Dialog.Title>
-      <Dialog.Description
-        >Détails et modification de la tâche</Dialog.Description
-      >
+      <Dialog.Title>{form_values.name}</Dialog.Title>
+      <Dialog.Description>Détails et modification</Dialog.Description>
     </Dialog.Header>
-    <Select.Root
-      type="single"
-      value={form_values.schedule_id.toString()}
-      onValueChange={(v) => {
-        form_values.schedule_id = parseInt(v);
-      }}
-    >
-      <Select.Trigger class="w-[180px]">
-        {form_values.schedule_id > 0
-          ? schedules_store.name(form_values.schedule_id)
-          : "Choisir une timeline"}
-      </Select.Trigger>
-      <Select.Content>
-        <Select.Group>
-          {#each schedules_store.schedules as [schedule_id, schedule]}
-            <Select.Item value={schedule_id.toString()} label={schedule.name}>
-              {schedule.name}
-            </Select.Item>
-          {/each}
-        </Select.Group>
-      </Select.Content>
-    </Select.Root>
-    <TaskForm bind:form_values />
+    <Label for="name">Nom</Label>
+    <Input id="name" bind:value={form_values.name} />
     <Dialog.Footer>
-      <Button
-        type="submit"
-        onclick={() => {
-          tasks_store.append(JSON.parse(JSON.stringify(form_values)));
-        }}
-      >
-        Sauvegarder
-      </Button>
+      <Dialog.Close>
+        <Button
+          type="submit"
+          onclick={() => {
+            data.new_schedule(form_values).then((s) => {
+              const n_s = {
+                id: s.id,
+                name: s.name,
+                tasks: new SvelteSet<number>(),
+              } as Schedule;
+              schedules_store.append(JSON.parse(JSON.stringify(n_s)));
+            });
+          }}
+        >
+          Sauvegarder
+        </Button>
+      </Dialog.Close>
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>
