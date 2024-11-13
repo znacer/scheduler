@@ -10,7 +10,12 @@
   import NewTask from "$lib/components/new-task.svelte";
   import * as Menubar from "$lib/components/ui/menubar/index";
   import { get_schedules } from "$lib/test_data";
-  import { get_data, reset_data } from "$lib/data";
+  import {
+    get_data,
+    reset_data,
+    update_all_schedules,
+    update_all_tasks,
+  } from "$lib/data";
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import NewSchedule from "$lib/components/new-schedule.svelte";
@@ -74,14 +79,26 @@
     <Menubar.Trigger>Timelines</Menubar.Trigger>
     <Menubar.Content>
       <Menubar.Item><NewSchedule /></Menubar.Item>
-
+      <Menubar.Separator></Menubar.Separator>
+      <Menubar.Item
+        onclick={() => {
+          update_all_schedules();
+          update_all_tasks();
+        }}>Tout sauvegarder</Menubar.Item
+      >
       <Menubar.Separator></Menubar.Separator>
       <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
       <Menubar.Item onclick={reset_data}>RESET</Menubar.Item>
       <Menubar.Item onclick={get_data}>LOAD DATA</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
       {#if schedules_store.ids().length > 0}
-        <Menubar.CheckboxItem>Selectionner tout (TODO)</Menubar.CheckboxItem>
+        <Menubar.CheckboxItem
+          onclick={() => {
+            schedules_store.check_switch();
+          }}
+        >
+          Selectionner tout
+        </Menubar.CheckboxItem>
       {/if}
       <Menubar.Separator></Menubar.Separator>
       {#each schedules_store.ids() as id}

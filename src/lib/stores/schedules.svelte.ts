@@ -107,6 +107,18 @@ export function create_schedules() {
       checked.set(s.id, false);
     }
   }
+  function check_switch() {
+    let sum = [...checked.values()].reduce((p, c) => p + (c ? 1 : 0), 0)
+    if (sum < schedules.size) {
+      schedules.forEach((_, k) => {
+        checked.set(k, true);
+      })
+    } else {
+      schedules.forEach((_, k) => {
+        checked.set(k, false);
+      })
+    }
+  }
 
   function is_check(id: number): boolean {
     let out = checked.get(id);
@@ -164,6 +176,7 @@ export function create_schedules() {
     arrange_lines,
     nb_lines,
     task_line,
+    check_switch,
   };
 }
 
