@@ -7,7 +7,7 @@
 	import { DateFormatter } from "@internationalized/date";
 	import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
 	import { type Waypoint, pim_store } from "$lib/stores/pims.svelte";
-	import { env } from '$env/dynamic/public';
+	import { env } from "$env/dynamic/public";
 
 	let data = $derived.by(() => {
 		const my_pim = pim_store.pim_by_id(1);
@@ -125,12 +125,13 @@
 		if (data.length > 0) {
 			map?.flyTo({ center: [center[0], center[1]], zoom: 11 });
 		}
+		if (map) {
+			let marker = new maplibregl.Marker().setLngLat([0, 0]).addTo(map);
+		}
 	});
 </script>
 
-<div class="relative h-5/6 w-full">
-	<div id="map" bind:this={map_element}></div>
-</div>
+<div id="map" bind:this={map_element}></div>
 
 <style>
 	#map {
