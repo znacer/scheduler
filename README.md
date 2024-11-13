@@ -2,6 +2,9 @@
 
 ## TODO
 
+- [ ] SSO
+- [ ] user rights to edit a TL
+
 ### timeline
 - [x] Navigate left and right from timerange
 - [x] View multiple timelines
@@ -12,6 +15,8 @@
 - [x] datetimepicker = P1 !
 - [x] durationpicker = P1 !
 - [x] Edit timeline
+- [x] New timeline
+- [ ] Copy a timeline
 #### Table
 - [ ] Page list tasks with filters
 - [ ] Select all timelines
@@ -22,3 +27,8 @@
 - [ ] Show tasks on the map
 - [ ] Edit the PIM
 - [ ] Add new points on the PIM
+
+### database
+- [x] Save a new timeline
+- [x] Save a new task
+- [ ] Save all tasks and timelines
