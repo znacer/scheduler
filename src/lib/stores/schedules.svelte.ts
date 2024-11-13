@@ -91,57 +91,6 @@ export function create_schedules() {
       return 0;
     }
   }
-  // function arrange_lines(schedule_id: number) {
-  //   // attribute a line to each task such as they do not over lap.
-  //   // returns the number of line needed
-  //   let visited_tasks: number[] = [];
-  //   let m_nb_lines = 1;
-  //   let s_tasks = schedules.get(schedule_id)?.tasks;
-  //   if (s_tasks === undefined) {
-  //     return 0;
-  //   }
-  //   const tasks = new Map<number, Task>();
-  //   s_tasks.forEach((t) => { tasks.set(t.id, t) });
-  //   [...tasks.values()].sort((t1: Task, t2: Task) => t1.start - t2.start).forEach(
-  //     (t, idx) => {
-  //       if (idx !== 0) {
-  //         //check with how many previous tasks do this on instersects with
-  //         const intersect = visited_tasks.filter((t_id) => {
-  //           const i_task = tasks.get(t_id);
-  //           if (i_task) {
-  //             return i_task.start + i_task.duration > t.start
-  //           } else {
-  //             return false;
-  //           }
-  //         });
-  //         let affected = false;
-  //         for (let i = 0; i <= m_nb_lines; i++) {
-  //           const is_taken = intersect.filter((t_id) => tasks.get(t_id)?.line === i);
-  //           if (is_taken.length === 0) {
-  //             tasks.set(t.id, {
-  //               ...t,
-  //               line: i,
-  //             });
-  //             affected = true;
-  //             break;
-  //           }
-  //         }
-  //         if (!affected) {
-  //           m_nb_lines += 1
-  //           tasks.set(t.id, {
-  //             ...t,
-  //             line: m_nb_lines,
-  //           });
-  //         }
-  //       } else {
-  //         tasks.set(t.id, { ...t, line: 0 });
-  //       }
-  //       visited_tasks.push(t.id);
-  //     }
-  //   );
-  //   schedules.set(schedule_id, { ...schedules.get(schedule_id), tasks } as Schedule)
-  //   private_nb_lines.set(schedule_id, m_nb_lines + 1);
-  // }
 
   function check(id: number) {
     let s = schedules.get(id);
