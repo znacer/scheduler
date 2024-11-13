@@ -115,7 +115,10 @@ export async function update_task(t: Task) {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  await fetch(`${PUBLIC_BACKEND_URL}/update-task`, request_options);
+  const res = await fetch(`${PUBLIC_BACKEND_URL}/update-task`, request_options);
+  const data = res.json();
+
+  return data;
 }
 
 export async function update_all_tasks() {
@@ -150,7 +153,10 @@ export async function update_schedule(s: Schedule) {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  await fetch(`${PUBLIC_BACKEND_URL}/update-schedule`, request_options);
+  const res = await fetch(`${PUBLIC_BACKEND_URL}/update-schedule`, request_options);
+  const data = res.json();
+
+  return data;
 }
 
 

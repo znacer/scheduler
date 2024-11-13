@@ -1,6 +1,8 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import * as data from "$lib/data";
   import { schedules_store, type Schedule } from "$lib/stores/schedules.svelte";
+  import { SvelteSet } from "svelte/reactivity";
   import Button from "./ui/button/button.svelte";
   import Input from "./ui/input/input.svelte";
   import { Label } from "./ui/label";
@@ -34,6 +36,22 @@
         type="submit"
         onclick={() => {
           schedules_store.append(JSON.parse(JSON.stringify(form_values)));
+        }}
+      >
+        Appliquer
+      </Button>
+      <Button
+        type="submit"
+        variant="destructive"
+        onclick={() => {
+          data.update_schedule(form_values).then((s) => {
+            const n_s = {
+              id: s.id,
+              name: s.name,
+              tasks: new SvelteSet<number>(),
+            } as Schedule;
+            schedules_store.append(JSON.parse(JSON.stringify(n_s)));
+          });
         }}
       >
         Sauvegarder

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import * as data from "$lib/data";
   import { ColorPalette, random_color } from "$lib/stores/schedules.svelte";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
@@ -121,6 +122,17 @@
         type="submit"
         onclick={() => {
           tasks_store.append(JSON.parse(JSON.stringify(form_values)));
+        }}
+      >
+        Appliquer
+      </Button>
+      <Button
+        type="submit"
+        variant="destructive"
+        onclick={() => {
+          data.update_task(form_values).then((t) => {
+            tasks_store.append(JSON.parse(JSON.stringify(t)));
+          });
         }}
       >
         Sauvegarder
