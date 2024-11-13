@@ -41,6 +41,10 @@ export function create_schedules() {
   function append(new_schedule: Schedule) {
     schedules.set(new_schedule.id, new_schedule);
     checked.set(new_schedule.id, true); //default to visible
+    // attach tasks to schedule
+    tasks_store.from_schedule(new_schedule.id).forEach((_, t_id) => {
+      set_task(new_schedule.id, t_id);
+    })
   }
 
   function add_schedules(new_schedules: Schedule[]) {
