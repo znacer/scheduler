@@ -2,14 +2,13 @@ import { SvelteMap, SvelteSet } from "svelte/reactivity";
 import { arrange_schedule_lines, tasks_store } from "./tasks.svelte";
 
 export enum ColorPalette {
-  NEUTRAL = "#404040",
+  NEUTRAL = "#3c6382",
   STONE = "#44403c",
-  RED = "#b91c1c",
-  ORANGE = "#c2410c",
-  YELLOW = "#a16207",
-  LIME = "#15803d",
-  EMERALD = "#047857",
-  SKY = "#0369a1",
+  RED = "#b71540",
+  ORANGE = "#e58e26",
+  YELLOW = "#f6b93b",
+  EMERALD = "#079992",
+  SKY = "#4a69bd",
   PURPLE = "#7e22ce",
 }
 export const colorHashMap: Map<string, ColorPalette> = new Map(
