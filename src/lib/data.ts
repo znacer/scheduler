@@ -1,58 +1,50 @@
-import { schedules_store } from "$lib/stores/schedules.svelte";
-import { type Task, tasks_store } from "$lib/stores/tasks.svelte";
+import { schedules_store, type Schedule } from "$lib/stores/schedules.svelte";
+import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
 import { SvelteSet } from "svelte/reactivity";
 import { pim_store } from "./stores/pims.svelte";
 
-interface TaskApiModel {
+interface TaskRequest {
   id: number;
   name: string;
   description: string;
   start: number;
   duration: number;
+  category: number;
+  schedule_id: number;
 }
 
-interface ScheduleApiModel {
+interface ScheduleRequest {
   id: number;
   name: string;
-  tasks: TaskApiModel[];
+  description: string;
 }
 
-export function test_producer(nb_objects: number): TaskApiModel[] {
-  const initial_timestamp = 1729468800000;
-  const objects = [];
-  for (let i = 0; i < nb_objects; i++) {
-    const id = Math.floor(Math.random() * 1789);
-    const name = `Task ${i + 1}`;
-    const description = `Description de l'objet ${i + 1}`;
-    let start = initial_timestamp + (Math.random() * 43200000); // timestamp aléatoire dans les 24 prochaines heures
-    start -= start % 60_000;
-    const duration = Math.floor(Math.random() * 21) * 900000 + 900000; // durée aléatoire entre 15 minutes et 6 heures
-    objects.push({ id, name, description, start, duration });
-  }
-  return objects;
-}
+export async function get_data() {
+  const res_schedules = await fetch(`http://localhost:8081/scheduler/list-schedules`);
+  const schedules: ScheduleRequest[] = await res_schedules.json();
 
-export async function get_schedules() {
-  let data = await fetch_data();
+  const res_tasks = await fetch(`http://localhost:8081/scheduler/list-tasks`);
+  const tasks: TaskRequest[] = await res_tasks.json();
+
   schedules_store.reset();
   tasks_store.reset();
   pim_store.reset();
-  data.forEach((s: ScheduleApiModel) => {
+  schedules.forEach((s: ScheduleRequest) => {
     schedules_store.append({
       id: s.id,
       name: s.name,
       tasks: new SvelteSet<number>(),
-    });
-    s.tasks.forEach((t) => {
-      tasks_store.append({
-        id: t.id,
-        name: t.name,
-        schedule_id: s.id,
-        start: t.start,
-        duration: t.duration,
-      });
-      schedules_store.set_task(s.id, t.id);
-    });
+    } as Schedule);
+  });
+  tasks.forEach((t) => {
+    tasks_store.append({
+      id: t.id,
+      name: t.name,
+      schedule_id: t.schedule_id,
+      start: t.start,
+      duration: t.duration,
+    } as Task);
+    schedules_store.set_task(t.schedule_id, t.id);
   });
 
 
@@ -89,8 +81,4 @@ export function reset_data() {
   pim_store.reset();
 
 }
-async function fetch_data(): Promise<ScheduleApiModel[]> {
-  const response = await fetch("/test");
-  const data = await response.json();
-  return data;
-}
+

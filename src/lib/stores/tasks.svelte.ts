@@ -7,9 +7,10 @@ export interface Task {
   name: string;
   start: number;
   duration: number;
+  description?: string;
+  category?: number;
   color?: ColorPalette;
   status?: boolean;
-  qualops?: boolean;
 }
 
 export function arrange_schedule_lines(

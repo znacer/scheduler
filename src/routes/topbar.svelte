@@ -1,17 +1,19 @@
 <script lang="ts">
   import { setMode, mode } from "mode-watcher";
   import { endOfDay } from "date-fns";
+  import { parseAbsoluteToLocal } from "@internationalized/date";
+  import { ChartGantt } from "lucide-svelte";
   import { page } from "$app/stores";
-  import * as Menubar from "$lib/components/ui/menubar/index";
+  import { goto } from "$app/navigation";
   import Tzmenu from "./tzmenu.svelte";
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index";
-  import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
-  import { parseAbsoluteToLocal } from "@internationalized/date";
-  import { schedules_store } from "$lib/stores/schedules.svelte";
-  import { get_schedules, reset_data } from "$lib/data";
   import NewTask from "$lib/components/new-task.svelte";
-  import { goto } from "$app/navigation";
-    import { ChartGantt } from "lucide-svelte";
+  import * as Menubar from "$lib/components/ui/menubar/index";
+  import { get_schedules } from "$lib/test_data";
+  import { get_data, reset_data } from "$lib/data";
+  import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
+  import { schedules_store } from "$lib/stores/schedules.svelte";
+  import NewSchedule from "$lib/components/new-schedule.svelte";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -69,11 +71,14 @@
 <Menubar.Root class="bg-secondary px-2 rounded-none border-x-0 border-t-0">
   <ChartGantt />
   <Menubar.Menu>
-    <Menubar.Trigger>Calendriers</Menubar.Trigger>
+    <Menubar.Trigger>Timelines</Menubar.Trigger>
     <Menubar.Content>
+      <Menubar.Item><NewSchedule /></Menubar.Item>
+
+      <Menubar.Separator></Menubar.Separator>
       <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
       <Menubar.Item onclick={reset_data}>RESET</Menubar.Item>
-      <Menubar.Item>LOAD DATA (TODO)</Menubar.Item>
+      <Menubar.Item onclick={get_data}>LOAD DATA</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
       {#if schedules_store.ids().length > 0}
         <Menubar.CheckboxItem>Selectionner tout (TODO)</Menubar.CheckboxItem>
@@ -128,7 +133,9 @@
     </Menubar.Content>
   </Menubar.Menu>
   <div class="grow">
-  <p class="w-full text-center font-bold text-accent-foreground">Fuseau actuel: {grid_layout_store.tz}</p>
+    <p class="w-full text-center font-bold text-accent-foreground">
+      Fuseau actuel: {grid_layout_store.tz}
+    </p>
   </div>
   <Menubar.Menu>
     <Menubar.Trigger>Theme</Menubar.Trigger>

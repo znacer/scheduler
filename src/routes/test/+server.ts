@@ -1,4 +1,4 @@
-import { test_producer } from "$lib/data";
+import { test_producer } from "$lib/test_data";
 import { json } from "@sveltejs/kit";
 
 export function GET() {
