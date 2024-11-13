@@ -68,6 +68,10 @@ export function create_schedules() {
     out.forEach((v, k) => {
       lines_task.set(k, v);
     });
+    if (out.size === 0) {
+      lines_max.set(schedule_id, 1);
+      return out;
+    }
     const nb = [...out.values()].reduce((p, c) => Math.max(p, c));
     lines_max.set(schedule_id, nb + 1);
     return out;
