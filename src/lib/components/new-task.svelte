@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
+  import * as data from "$lib/data";
   import TaskForm from "$lib/components/taskForm.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
@@ -55,7 +56,9 @@
       <Button
         type="submit"
         onclick={() => {
-          tasks_store.append(JSON.parse(JSON.stringify(form_values)));
+          data.new_task(form_values).then((t) => {
+            tasks_store.append(JSON.parse(JSON.stringify(t as Task)));
+          });
         }}
       >
         Sauvegarder

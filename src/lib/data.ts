@@ -105,7 +105,7 @@ export async function new_task(t: Task): Promise<TaskRequest> {
   };
   const res = await fetch(`${PUBLIC_BACKEND_URL}/new-task`, request_options);
   const data = await res.json();
-  return JSON.parse(data);
+  return data;
 }
 
 export async function update_task(t: Task) {
@@ -139,7 +139,7 @@ export async function new_schedule(s: Schedule): Promise<ScheduleRequest> {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  const res = await fetch(`${PUBLIC_BACKEND_URL}/scheduler/new-schedule`, request_options);
+  const res = await fetch(`${PUBLIC_BACKEND_URL}/new-schedule`, request_options);
   const data = await res.json();
   return data;
 }

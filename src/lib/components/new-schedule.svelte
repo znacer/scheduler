@@ -12,9 +12,10 @@
     name: "Nouvelle tâche",
     tasks: new SvelteSet(),
   });
+  let open = $state(false);
 </script>
 
-<Dialog.Root>
+<Dialog.Root bind:open>
   <Dialog.Trigger class="h-full w-full">Nouvelle timeline</Dialog.Trigger>
   <Dialog.Content>
     <Dialog.Header>
@@ -24,23 +25,22 @@
     <Label for="name">Nom</Label>
     <Input id="name" bind:value={form_values.name} />
     <Dialog.Footer>
-      <Dialog.Close>
-        <Button
-          type="submit"
-          onclick={() => {
-            data.new_schedule(form_values).then((s) => {
-              const n_s = {
-                id: s.id,
-                name: s.name,
-                tasks: new SvelteSet<number>(),
-              } as Schedule;
-              schedules_store.append(JSON.parse(JSON.stringify(n_s)));
-            });
-          }}
-        >
-          Sauvegarder
-        </Button>
-      </Dialog.Close>
+      <Button
+        type="submit"
+        onclick={() => {
+          data.new_schedule(form_values).then((s) => {
+            const n_s = {
+              id: s.id,
+              name: s.name,
+              tasks: new SvelteSet<number>(),
+            } as Schedule;
+            schedules_store.append(JSON.parse(JSON.stringify(n_s)));
+          });
+          open = false;
+        }}
+      >
+        Sauvegarder
+      </Button>
     </Dialog.Footer>
   </Dialog.Content>
 </Dialog.Root>
