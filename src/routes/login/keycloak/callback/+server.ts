@@ -4,7 +4,6 @@ import { parseJWT } from "@oslojs/jwt";
 import type { RequestEvent } from "@sveltejs/kit";
 import type { OAuth2Tokens } from "arctic";
 import { createUser, getUserFromkeycloakId } from "$lib/server/user";
-import { KEYCLOAK_REALM, KEYCLOAK_URL } from "$env/static/private";
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get("code");
@@ -31,11 +30,10 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 400
 		});
 	}
-	const [header, payload, signature] = parseJWT(tokens.idToken());
+	const [_, payload, __] = parseJWT(tokens.idToken());
 	const keycloakUserId = payload.sub;
 	const keycloakUsername = payload.preferred_username;
 
-	// TODO: Replace this with your own DB query.
 	const existingUser = await getUserFromkeycloakId(keycloakUserId);
 
 	if (existingUser) {
@@ -45,12 +43,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/"
+				Location: "/app"
 			}
 		});
 	}
 
-	// TODO: Replace this with your own DB query.
 	const user = await createUser(keycloakUserId, keycloakUsername);
 
 	const sessionToken = generateSessionToken();

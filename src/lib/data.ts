@@ -2,7 +2,7 @@ import { schedules_store, type Schedule } from "$lib/stores/schedules.svelte";
 import { tasks_store, type Task } from "$lib/stores/tasks.svelte";
 import { SvelteSet } from "svelte/reactivity";
 import { pim_store } from "./stores/pims.svelte";
-import { PUBLIC_BACKEND_URL } from "$env/static/public";
+import { env } from "$env/dynamic/public";
 
 interface TaskRequest {
   id: number;
@@ -21,10 +21,10 @@ interface ScheduleRequest {
 }
 
 export async function get_data() {
-  const res_schedules = await fetch(`${PUBLIC_BACKEND_URL}/list-schedules`);
+  const res_schedules = await fetch(`${env.PUBLIC_BACKEND_URL}/list-schedules`);
   const schedules: ScheduleRequest[] = await res_schedules.json();
 
-  const res_tasks = await fetch(`${PUBLIC_BACKEND_URL}/list-tasks`);
+  const res_tasks = await fetch(`${env.PUBLIC_BACKEND_URL}/list-tasks`);
   const tasks: TaskRequest[] = await res_tasks.json();
 
   schedules_store.reset();
@@ -103,7 +103,7 @@ export async function new_task(t: Task): Promise<TaskRequest> {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  const res = await fetch(`${PUBLIC_BACKEND_URL}/new-task`, request_options);
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/new-task`, request_options);
   const data = await res.json();
   return data;
 }
@@ -115,7 +115,7 @@ export async function update_task(t: Task) {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  const res = await fetch(`${PUBLIC_BACKEND_URL}/update-task`, request_options);
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/update-task`, request_options);
   const data = res.json();
 
   return data;
@@ -142,7 +142,7 @@ export async function new_schedule(s: Schedule): Promise<ScheduleRequest> {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  const res = await fetch(`${PUBLIC_BACKEND_URL}/new-schedule`, request_options);
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/new-schedule`, request_options);
   const data = await res.json();
   return data;
 }
@@ -153,7 +153,7 @@ export async function update_schedule(s: Schedule) {
     headers: { 'Content-Type': 'application/json' },
     body
   };
-  const res = await fetch(`${PUBLIC_BACKEND_URL}/update-schedule`, request_options);
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/update-schedule`, request_options);
   const data = res.json();
 
   return data;
