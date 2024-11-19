@@ -9,6 +9,7 @@
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index";
   import NewTask from "$lib/components/new-task.svelte";
   import * as Menubar from "$lib/components/ui/menubar/index";
+  import Button from "$lib/components/ui/button/button.svelte";
   import { get_schedules } from "$lib/test_data";
   import {
     get_data,
@@ -178,9 +179,10 @@
     <Menubar.Content>version ???</Menubar.Content>
   </Menubar.Menu>
   <Menubar.Menu>
-  <form method="post" use:enhance>
-  <button>Sign out</button>
-</form>
-
+    <Menubar.Trigger>
+      <form method="post" use:enhance>
+        <Button type="submit" variant="ghost">Déconnexion</Button>
+      </form>
+    </Menubar.Trigger>
   </Menubar.Menu>
 </Menubar.Root>
