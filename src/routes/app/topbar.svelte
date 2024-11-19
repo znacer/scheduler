@@ -89,9 +89,9 @@
         }}>Tout sauvegarder</Menubar.Item
       >
       <Menubar.Separator></Menubar.Separator>
-      <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
-      <Menubar.Item onclick={reset_data}>RESET</Menubar.Item>
-      <Menubar.Item onclick={get_data}>LOAD DATA</Menubar.Item>
+      <!-- <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item> -->
+      <Menubar.Item onclick={reset_data}>RaZ</Menubar.Item>
+      <Menubar.Item onclick={get_data}>Charger les données</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
       {#if schedules_store.ids().length > 0}
         <Menubar.CheckboxItem
