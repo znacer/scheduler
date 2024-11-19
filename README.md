@@ -2,7 +2,8 @@
 
 ## TODO
 
-- [ ] SSO
+- [x] SSO front
+- [ ] SSO back
 - [ ] user rights to edit a TL
 
 ### timeline
