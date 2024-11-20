@@ -28,6 +28,9 @@
 - [ ] Show tasks on the map
 - [ ] Edit the PIM
 - [ ] Add new points on the PIM
+- [ ] Parse PIM from NMEA (ECDIS)
+- [ ] Interpol Task on PIM
+- [ ] Output = csv (id, type {waypoint | task event}, lat, long, timestamp, name, opt: description...)
 
 ### database
 - [x] Save a new timeline
