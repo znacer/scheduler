@@ -95,7 +95,7 @@ spec:
   host: scheduler-dev.apps.prod.colbert.def
   to:
     kind: Service
-    name: frontend-svc
+    name: frontend-dev-svc
     weight: 100
   port:
     targetPort: 3000-tcp
