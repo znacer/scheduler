@@ -1,5 +1,3 @@
-# use the official Bun image
-# see all versions at https://hub.docker.com/r/oven/bun/tags
 FROM quay.apps.prod.colbert.def/zakaria_nacer/scheduler-frontend-builder:latest AS base
 WORKDIR /app
 
@@ -18,7 +16,6 @@ ENV DATABASE_USER=postgres
 ENV DATABASE_PASSWORD=mysecretpassword
 ENV DATABASE_DB=scheduling-app
 
-USER app
 COPY build ./build
 
 EXPOSE 3000/tcp
