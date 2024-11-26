@@ -92,7 +92,7 @@ metadata:
   labels:
     app.kubernetes.io/platform: prod.colbert.def
 spec:
-  host: frontend-dev.apps.prod.colbert.def
+  host: scheduler-dev.apps.prod.colbert.def
   to:
     kind: Service
     name: frontend-svc
