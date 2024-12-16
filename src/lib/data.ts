@@ -20,6 +20,44 @@ interface ScheduleRequest {
   description: string;
 }
 
+export async function get_users() {
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/list-users`,
+    {
+      headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
+      }
+    });
+  let groups = await res.json();
+  return groups
+}
+export async function get_user_groups() {
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/list-my-groups`,
+    {
+      headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
+      }
+    });
+  let groups = await res.json();
+  return groups
+}
+export async function new_group(group_name: string) {
+  const body = JSON.stringify({
+    id: 0,
+    name: group_name
+  });
+  console.log(body);
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/new-group`,
+    {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54",
+        "Content-Type": "application/json"
+      },
+      body
+    });
+  let groups = await res.text();
+  return groups
+}
 export async function get_data() {
   const res_schedules = await fetch(`${env.PUBLIC_BACKEND_URL}/list-schedules`);
   const schedules: ScheduleRequest[] = await res_schedules.json();
@@ -158,7 +196,6 @@ export async function update_schedule(s: Schedule) {
 
   return data;
 }
-
 
 export async function update_all_schedules() {
   for (let [_, s] of schedules_store.schedules) {

@@ -1,5 +1,5 @@
 import { SvelteMap } from "svelte/reactivity";
-import type { ColorPalette } from "./schedules.svelte";
+import { ColorPalette } from "./categories.svelte";
 
 export interface Task {
   id: number;
