@@ -2,7 +2,8 @@
   import { fly } from "svelte/transition";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as data from "$lib/data";
-  import { ColorPalette, random_color } from "$lib/stores/schedules.svelte";
+  import { random_color } from "$lib/stores/schedules.svelte";
+  import { ColorPalette } from "$lib/stores/categories.svelte";
   import { grid_layout_store } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import { tasks_store, type Task } from "$lib/stores/tasks.svelte";

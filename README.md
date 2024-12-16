@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [x] SSO front
+- [ ] SSO front
 - [ ] SSO back
 - [ ] user rights to edit a TL
 
@@ -36,3 +36,51 @@
 - [x] Save a new timeline
 - [x] Save a new task
 - [ ] Save all tasks and timelines
+
+
+## Data models
+
+### Schedule
+Represent a timeline
+- id: i64, primary key
+- name: String, display name
+- description: String, description or comment
+
+### Task
+- id: i64, primary key
+- name: String, display name of the task
+- start: i64, unix timestamp in ms, start 
+- duration: i64, in ms, duration of the task
+- description: String, description or comment of the task
+- category: i32, id of the category (foreign key)
+- schedule_id: i64, id of the related schedule (foreign key)
+
+<!-- TODO: -->
+### Category
+- id: i64, primary key
+- name: String, name of the group
+
+<!-- TODO: -->
+### Group
+- id: i64, primary key
+- name: String, name of the group
+
+<!-- TODO: -->
+### User
+- id: i64, primary key
+- name: String, username
+
+<!-- TODO: -->
+### UserGroup
+- id: i64, primary key
+- user_id: i64, user id (foreign key)
+- group_id: i64, group id (foreign key)
+- admin: bool, if true user is admin of the group, if false just a member
+
+<!-- TODO: -->
+### ScheduleGroup
+- id: i64, primary key
+- schedule_id: i64, schedule id (foreign key)
+- group_id: i64, group id (foreign key)
+- write: bool, if true group can read and write the schedule, false if read only
+
