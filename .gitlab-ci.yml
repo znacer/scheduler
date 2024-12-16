@@ -1,0 +1,88 @@
+stages:
+  - build-dev
+  - package-dev
+  - deploy-dev
+
+variables:
+  CI_EMAIL: $CI_EMAIL
+  CI_USERNAME: $CI_USERNAME
+  CI_PASS: $CI_PASS
+  IMG_NAME: quay.apps.prod.colbert.def/colbert/scheduler-frontend
+  PLANIF_TOKEN: $PLANIF_TOKEN
+  PROD_URL: $PROD_URL
+
+build-job-dev: # This job runs in the build stage, which runs first.
+  stage: build-dev
+  image:
+    name: quay.apps.prod.colbert.def/zakaria_nacer/scheduler-frontend-builder:latest
+    entrypoint: [ "" ]
+  tags:
+    - node
+    - front
+  before_script:
+    - ln -s /app/node_modules ./node_modules
+  script:
+    - echo "building dev"
+    - npm run build
+    - echo "TAG=dev" >> build.env
+  only:
+    refs:
+      - main
+      - ci
+  artifacts:
+    reports:
+      dotenv: build.env
+    paths:
+      - build/
+
+package-job-dev: # This job runs in the build stage, which runs first.
+  stage: package-dev
+  dependencies:
+    - build-job-dev
+  needs:
+    - build-job-dev
+  image:
+    name: quay.apps.prod.colbert.def/library/kaniko-project/custom-executor:2.1
+    entrypoint: [ "" ]
+  tags:
+    - kaniko-builder
+  script:
+    - ls build
+    - echo "building $IMG_NAME:$TAG"
+    - cat /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $IMG_NAME:$TAG --skip-tls-verify --insecure --digest-file digest
+    - cat digest
+    - echo "TAG=$TAG" >> build.env
+  only:
+    refs:
+      - main
+      - ci
+  artifacts:
+    paths:
+      - digest
+    reports:
+      dotenv: build.env
+
+deploy-dev-job:
+  stage: deploy-dev
+  dependencies:
+    - package-job-dev
+  needs:
+    - package-job-dev
+  tags:
+    - node
+    - front
+  only:
+    refs:
+      - main
+      - ci
+  image:
+    name: quay.apps.prod.colbert.def/library/gitlab-deployer:0.0.2
+  script:
+    - export IMG_DIGEST=$(cat digest)
+    - export IMG_TAG=$TAG
+    - export IMG_NAME=$IMG_NAME
+    - echo "PROD_URL=$PROD_URL"
+    - echo "superseding image to $IMG_NAME:$IMG_TAG@$IMG_DIGEST"
+    - oc login --token=$PLANIF_TOKEN --server=$PROD_URL --insecure-skip-tls-verify=true
+    - cat k8s/dev/deployment.yaml | envsubst | oc apply -f -

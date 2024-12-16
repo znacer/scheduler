@@ -9,6 +9,7 @@
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index";
   import NewTask from "$lib/components/new-task.svelte";
   import * as Menubar from "$lib/components/ui/menubar/index";
+  import Button from "$lib/components/ui/button/button.svelte";
   import { get_schedules } from "$lib/test_data";
   import {
     get_data,
@@ -19,6 +20,7 @@
   import { grid_layout_store, Zoom } from "$lib/stores/grid_layout.svelte";
   import { schedules_store } from "$lib/stores/schedules.svelte";
   import NewSchedule from "$lib/components/new-schedule.svelte";
+  import { enhance } from "$app/forms";
 
   setMode("system");
   const start = new Date(grid_layout_store.start);
@@ -51,9 +53,9 @@
   });
 
   const routes = new Map();
-  routes.set("/", { value: "timeline", name: "Frise" });
-  routes.set("/tasks", { value: "tasks", name: "Tableau" });
-  routes.set("/map", { value: "map", name: "Carte" });
+  routes.set("/app", { value: "timeline", name: "Frise" });
+  routes.set("/app/tasks", { value: "tasks", name: "Tableau" });
+  routes.set("/app/map", { value: "map", name: "Carte" });
   let view = $derived.by(() => {
     const possible_route = routes.get($page.url.pathname);
     if (possible_route) {
@@ -87,9 +89,9 @@
         }}>Tout sauvegarder</Menubar.Item
       >
       <Menubar.Separator></Menubar.Separator>
-      <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item>
-      <Menubar.Item onclick={reset_data}>RESET</Menubar.Item>
-      <Menubar.Item onclick={get_data}>LOAD DATA</Menubar.Item>
+      <!-- <Menubar.Item onclick={get_schedules}>TEST DATA</Menubar.Item> -->
+      <Menubar.Item onclick={reset_data}>RaZ</Menubar.Item>
+      <Menubar.Item onclick={get_data}>Charger les données</Menubar.Item>
       <Menubar.Separator></Menubar.Separator>
       {#if schedules_store.ids().length > 0}
         <Menubar.CheckboxItem
@@ -175,5 +177,12 @@
   <Menubar.Menu>
     <Menubar.Trigger>A propos</Menubar.Trigger>
     <Menubar.Content>version ???</Menubar.Content>
+  </Menubar.Menu>
+  <Menubar.Menu>
+    <Menubar.Trigger>
+      <form method="post" use:enhance>
+        <Button type="submit" variant="ghost">Déconnexion</Button>
+      </form>
+    </Menubar.Trigger>
   </Menubar.Menu>
 </Menubar.Root>

@@ -20,7 +20,7 @@
 
 <Dialog.Root>
   <Dialog.Trigger class="h-full w-full">
-    <p class="h-full content-center indent-4" transition:slide|global>
+    <p class="h-full content-center indent-4" in:slide|global>
       {schedules_store.name(schedule_id)}
     </p>
   </Dialog.Trigger>

@@ -1,16 +1,7 @@
 import { SvelteMap, SvelteSet } from "svelte/reactivity";
 import { arrange_schedule_lines, tasks_store } from "./tasks.svelte";
+import { ColorPalette } from "./categories.svelte";
 
-export enum ColorPalette {
-  NEUTRAL = "#3c6382",
-  STONE = "#44403c",
-  RED = "#b71540",
-  ORANGE = "#e58e26",
-  YELLOW = "#f6b93b",
-  EMERALD = "#079992",
-  SKY = "#4a69bd",
-  PURPLE = "#7e22ce",
-}
 export const colorHashMap: Map<string, ColorPalette> = new Map(
   Object.entries(ColorPalette),
 );
@@ -41,6 +32,10 @@ export function create_schedules() {
   function append(new_schedule: Schedule) {
     schedules.set(new_schedule.id, new_schedule);
     checked.set(new_schedule.id, true); //default to visible
+    // attach tasks to schedule
+    tasks_store.from_schedule(new_schedule.id).forEach((_, t_id) => {
+      set_task(new_schedule.id, t_id);
+    })
   }
 
   function add_schedules(new_schedules: Schedule[]) {

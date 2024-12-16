@@ -19,7 +19,7 @@
 <div
   class="relative flex flex-row w-full h-fit"
   style="height: {nb_lines * grid_layout_store.cell_height}px"
-  transition:scale|global={{
+  in:scale|global={{
     delay: 100,
     duration: 1000,
   }}
