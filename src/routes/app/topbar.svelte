@@ -10,7 +10,6 @@
   import NewTask from "$lib/components/new-task.svelte";
   import * as Menubar from "$lib/components/ui/menubar/index";
   import Button from "$lib/components/ui/button/button.svelte";
-  import { get_schedules } from "$lib/test_data";
   import {
     get_data,
     reset_data,
@@ -56,6 +55,7 @@
   routes.set("/app", { value: "timeline", name: "Frise" });
   routes.set("/app/tasks", { value: "tasks", name: "Tableau" });
   routes.set("/app/map", { value: "map", name: "Carte" });
+  routes.set("/app/admin", { value: "admin", name: "Admin" });
   let view = $derived.by(() => {
     const possible_route = routes.get($page.url.pathname);
     if (possible_route) {

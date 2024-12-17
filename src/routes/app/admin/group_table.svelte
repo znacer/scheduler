@@ -1,14 +1,8 @@
 <script lang="ts">
   import * as Table from "$lib/components/ui/table/index";
   import { CircleX, ShieldCheck } from "lucide-svelte";
-  import { group_store, type Group } from "$lib/stores/groups.svelte";
+  import { group_store } from "$lib/stores/groups.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
-
-  interface GroupTableProps {
-    groups: Map<number, Group>;
-  }
-
-  // let { groups }: GroupTableProps = $props();
 </script>
 
 {#if group_store.groups.size > 0}

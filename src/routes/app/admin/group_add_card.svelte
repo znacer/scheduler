@@ -20,10 +20,12 @@
 <Card.Root
   class={cn("bg-card text-card-foreground rounded-xl border shadow", className)}
 >
-  <Card.Header>
-    <Card.Title>Ajouter à un groupe</Card.Title>
+  <Card.Header
+    class="sticky top-0 rounded-xl bg-background bg-opacity-100 z-10 text-center py-2"
+  >
+    <Card.Title>Ajouter un utilisateur à un groupe</Card.Title>
   </Card.Header>
-  <Card.Content class="flex flex-col space-y-2 w-full">
+  <Card.Content class="flex flex-col space-y-2 w-full pb-0 pt-2 ">
     <div class="flex space-x-2 w-full justify-center">
       <Select.Root type="single" bind:value={group_to_add}>
         <Select.Trigger class="w-[180px]">{group_to_add_trigger}</Select.Trigger
@@ -53,8 +55,12 @@
         <p>{user}</p>
       {/each}
     {/if}
-    <div class="flex justify-center">
+  </Card.Content>
+  <Card.Footer
+    class="space-x-2 sticky bottom-0 bg-background bg-opacity-100 py-2 w-full"
+  >
+    <div class="flex justify-center w-full">
       <Button class="w-1/3" onclick={() => console.log("add")}>Valider</Button>
     </div>
-  </Card.Content>
+  </Card.Footer>
 </Card.Root>
