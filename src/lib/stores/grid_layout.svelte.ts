@@ -3,8 +3,15 @@ export enum Zoom {
   DAY = 24 * 60 * 60 * 1000,
   WEEK = 7 * 24 * 60 * 60 * 1000,
 }
+  function start_of_day_now(): number {
+      let start = new Date()
+      start.setHours(0)
+      start.setMinutes(0)
+      start.setSeconds(0)
+      return start.getTime()
+  }
 export function create_layout() {
-  let start = $state(1729468800 * 1000);
+  let start = $state(start_of_day_now());
   let nb_lines = $state(5);
   let nb_colomns = $state(23);
   const cell_height = 50;
