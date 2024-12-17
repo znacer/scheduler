@@ -10,7 +10,7 @@ interface TaskRequest {
   description: string;
   start: number;
   duration: number;
-  category: number;
+  category_id: number;
   schedule_id: number;
 }
 
@@ -129,7 +129,7 @@ function transform_task(t: Task): TaskRequest {
     description: "",
     start: t.start,
     duration: t.duration,
-    category: 0,
+    category_id: 0,
     schedule_id: t.schedule_id,
   };
 }
