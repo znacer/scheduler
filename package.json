@@ -58,8 +58,6 @@
     "devalue": "^5.1.1",
     "drizzle-orm": "^0.36.3",
     "eslint": "^9.15.0",
-    "gridjs": "^6.2.0",
-    "gridjs-svelte": "^2.1.1",
     "lucide-svelte": "^0.453.0",
     "maplibre-gl": "^4.7.1",
     "mode-watcher": "^0.4.1",
