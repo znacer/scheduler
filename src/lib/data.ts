@@ -23,20 +23,21 @@ interface ScheduleRequest {
 export async function get_users() {
   const res = await fetch(`${env.PUBLIC_BACKEND_URL}/list-users`,
     {
-      headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
-      }
+      // headers: {
+      //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
+      // }
     });
   let groups = await res.json();
   return groups
 }
 export async function get_user_groups() {
-  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/list-my-groups`,
-    {
-      headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
-      }
-    });
+  const res = await fetch(`${env.PUBLIC_BACKEND_URL}/list-my-groups`
+    // {
+    // headers: {
+    //   "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54"
+    // }
+    // }
+  );
   let groups = await res.json();
   return groups
 }
@@ -50,7 +51,7 @@ export async function new_group(group_name: string) {
     {
       method: "PUT",
       headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54",
+        // "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImpvaG4uZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8givzyxqMedRy31ty6wkMfKo4Ibk0QDva8V989KYO54",
         "Content-Type": "application/json"
       },
       body
