@@ -1,22 +1,18 @@
-FROM quay.apps.prod.colbert.def/zakaria_nacer/scheduler-frontend-builder:0.2.0 AS base
+FROM node:22-alpine
+
+RUN addgroup --system app && adduser --system --ingroup app app
 WORKDIR /app
 
-ENV APP_URL=http://localhost:5173
-ENV PUBLIC_TILE_STYLE=https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
-ENV BACKEND_URL=http://localhost:8081/scheduler
-ENV REALM_URL=http://localhost:8080/realms/dev
-ENV KEYCLOAK_URL=http://localhost:8080
-ENV KEYCLOAK_REALM=dev
-ENV KEYCLOAK_CLIENT_ID=devclient
-ENV KEYCLOAK_CLIENT_SECRET=0KBzVgsEgnTk1CJ6upswBCxAFByEUk3i
-ENV DATABASE_URL=postgres:mysecretpassword@localhost:5432/scheduling-app
-ENV DATABASE_HOST=localhost
-ENV DATABASE_PORT=5432
-ENV DATABASE_USER=postgres
-ENV DATABASE_PASSWORD=mysecretpassword
-ENV DATABASE_DB=scheduling-app
+COPY package.json .
 
-COPY build ./build
+RUN npm install
 
-EXPOSE 3000/tcp
-ENTRYPOINT [ "node", "build" ]
+COPY . .
+
+RUN chown -R app:app /app
+
+USER app
+
+RUN npm run build
+
+CMD ["npm", "run", "preview"]

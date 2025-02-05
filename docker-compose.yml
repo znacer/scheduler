@@ -9,10 +9,24 @@ services:
       POSTGRES_PASSWORD: secretpassword
       POSTGRES_DB: local
   pgadmin:
-    image: quay.apps.prod.colbert.def/zakaria_nacer/pgadmin4
+    image: dpage/pgadmin4
     restart: always
     ports:
       - 5050:80
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.fr
       PGADMIN_DEFAULT_PASSWORD: admin
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://admin:secretpassword@db:5432/local
+      SECURED: UNSECURED
+      APP_URL: http://localhost:8000
+      PUBLIC_TILE_STYLE: https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
