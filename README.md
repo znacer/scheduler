@@ -9,7 +9,8 @@
     - using migration from the app container:
         1. attach the app container : `docker compose exec app bash`
         2. run migrations: `npm run db:push`
-3. access the app `http://localhost:4173`
+3. insert at least 1 category (with pgadmin) 
+4. access the app `http://localhost:4173`
 
 
 ## TODO
