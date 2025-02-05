@@ -28,7 +28,5 @@
    </DropdownMenu.Item>
   </DropdownMenu.Group>
   <DropdownMenu.Separator />
-  <DropdownMenu.Item>Delete (TODO)</DropdownMenu.Item>
-  <DropdownMenu.Item>Edit (TODO)</DropdownMenu.Item>
  </DropdownMenu.Content>
 </DropdownMenu.Root>

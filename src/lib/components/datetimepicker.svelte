@@ -14,10 +14,10 @@
 
   // Props
   interface DatetimepickerProps {
-    timestamp: number;
+    value: number;
   }
 
-  let { timestamp = $bindable() }: DatetimepickerProps = $props();
+  let { value = $bindable() }: DatetimepickerProps = $props();
 
   // Formatters
   const dateFormatter = new DateFormatter("fr", { dateStyle: "long" });
@@ -43,8 +43,8 @@
 
   // Initialize from timestamp
   $effect(() => {
-    if (timestamp) {
-      const date = new Date(timestamp);
+    if (value) {
+      const date = new Date(value);
       const zonedDate = parseAbsolute(date.toISOString(), grid_layout_store.tz);
       selectedDate = zonedDate;
     }
@@ -52,8 +52,8 @@
 
   // Format display value
   let displayValue = $derived(
-    timestamp
-      ? `${dateFormatter.format(new Date(timestamp))} ${timeFormatter.format(new Date(timestamp))}`
+    value
+      ? `${dateFormatter.format(new Date(value))} ${timeFormatter.format(new Date(value))}`
       : "Select date and time",
   );
 </script>
@@ -63,7 +63,7 @@
     onOpenChange={(open) => {
       if (!open) {
         if (selectedDate) {
-          timestamp = selectedDate.toDate().getTime();
+          value = selectedDate.toDate().getTime();
         }
       }
     }}
@@ -73,7 +73,7 @@
         variant="outline"
         class={cn(
           "w-[280px] justify-start text-left font-normal bg-secondary",
-          !timestamp && "text-muted-foreground",
+          !value && "text-muted-foreground",
         )}
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
@@ -89,11 +89,11 @@
           onValueChange={() => {
             if (selectedDate === undefined) {
               selectedDate = parseAbsolute(
-                new Date(timestamp).toISOString(),
+                new Date(value).toISOString(),
                 grid_layout_store.tz,
               );
             }
-            timestamp = selectedDate.toDate().getTime();
+            value = selectedDate.toDate().getTime();
           }}
         />
         <div class="flex items-center gap-2 mt-4">
@@ -103,12 +103,12 @@
             onValueChange={(hour) => {
               if (selectedDate === undefined) {
                 selectedDate = parseAbsolute(
-                  new Date(timestamp).toISOString(),
+                  new Date(value).toISOString(),
                   grid_layout_store.tz,
                 );
               }
               selectedDate = selectedDate.set({ hour: parseInt(hour) });
-              timestamp = selectedDate.toDate().getTime();
+              value = selectedDate.toDate().getTime();
             }}
           >
             <Select.Trigger class="w-[100px]">
@@ -126,12 +126,12 @@
             onValueChange={(minute) => {
               if (selectedDate === undefined) {
                 selectedDate = parseAbsolute(
-                  new Date(timestamp).toISOString(),
+                  new Date(value).toISOString(),
                   grid_layout_store.tz,
                 );
               }
               selectedDate = selectedDate.set({ minute: parseInt(minute) });
-              timestamp = selectedDate.toDate().getTime();
+              value = selectedDate.toDate().getTime();
             }}
           >
             <Select.Trigger class="w-[100px]">

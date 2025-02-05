@@ -152,7 +152,7 @@
     onclick={() => table.previousPage()}
     disabled={!table.getCanPreviousPage()}
   >
-    Previous
+    Précédent
   </Button>
   <Button
     variant="outline"
@@ -160,6 +160,6 @@
     onclick={() => table.nextPage()}
     disabled={!table.getCanNextPage()}
   >
-    Next
+    Suivant
   </Button>
 </div>

@@ -1,5 +1,7 @@
 import { SvelteMap } from "svelte/reactivity";
 import { ColorPalette } from "./categories.svelte";
+import type { z } from "zod";
+import type { taskSchema } from "$lib/server/db/schema/task";
 
 export interface Task {
   id: number;
@@ -7,8 +9,8 @@ export interface Task {
   name: string;
   start: number;
   duration: number;
-  description?: string;
-  category?: number;
+  description: string | null;
+  category_id: number;
   color?: ColorPalette;
   status?: boolean;
 }
@@ -92,8 +94,17 @@ export function create_tasks() {
   ): Task {
     return { id: 0, schedule_id, name, start, duration } as Task;
   }
+
+  function init(ts: z.infer<typeof taskSchema>[]) {
+    tasks = new SvelteMap(ts.map((t) => [t.id, t]));
+  }
+
+  function update_task(t: Task) {
+    tasks.set(t.id, t);
+  }
   return {
     reset,
+    init,
     get tasks() {
       return tasks;
     },
@@ -101,6 +112,7 @@ export function create_tasks() {
     append,
     from_schedule,
     new_task,
+    update_task
   };
 }
 

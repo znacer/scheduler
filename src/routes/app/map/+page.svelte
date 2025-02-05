@@ -6,13 +6,13 @@
 	let form_values = $derived(pim_store.pim_by_id(1));
 </script>
 
-<div class="relative h-4/6 w-full">
+<div class="relative h-full w-full">
 	<Plot />
 </div>
-<div class="relative h-2/6 w-full">
+<!-- <div class="relative h-2/6 w-full">
 	{#if form_values}
 		{#if form_values.length > 0}
 			<PimForm pim={form_values} />
 		{/if}
 	{/if}
-</div>
+</div> -->

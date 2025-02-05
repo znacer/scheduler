@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend
+    app.kubernetes.io/platform: prod.colbert.def
+    version: $IMG_TAG
+  name: frontend
+  namespace: planification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      app.kubernetes.io/platform: prod.colbert.def
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend
+        app.kubernetes.io/platform: prod.colbert.def
+    spec:
+      containers:
+        - image: $IMG_NAME:$IMG_TAG@$IMG_DIGEST
+          imagePullPolicy: IfNotPresent
+          name: frontend-container
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: '200m'
+              memory: 100Mi
+            requests:
+              cpu: '200m'
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          envFrom:
+            - configMapRef:
+                name: frontend-cm
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend-svc
+  namespace: planification
+  labels:
+    app.kubernetes.io/platform: prod.colbert.def
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 3000-tcp
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  internalTrafficPolicy: Cluster
+  selector:
+    app: frontend
+    app.kubernetes.io/platform: prod.colbert.def
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: frontend
+  namespace: planification
+  labels:
+    app.kubernetes.io/platform: prod.colbert.def
+    type: apps-ingress
+spec:
+  host: scheduler.apps.colbert.marine.defensecdd.gouv.fr
+  to:
+    kind: Service
+    name: frontend-svc
+    weight: 100
+  port:
+    targetPort: 3000-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

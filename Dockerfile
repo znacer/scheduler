@@ -1,9 +1,9 @@
-FROM quay.apps.prod.colbert.def/zakaria_nacer/scheduler-frontend-builder:latest AS base
+FROM quay.apps.prod.colbert.def/zakaria_nacer/scheduler-frontend-builder:0.2.0 AS base
 WORKDIR /app
 
 ENV APP_URL=http://localhost:5173
 ENV PUBLIC_TILE_STYLE=https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
-ENV PUBLIC_BACKEND_URL=http://localhost:8081/scheduler
+ENV BACKEND_URL=http://localhost:8081/scheduler
 ENV REALM_URL=http://localhost:8080/realms/dev
 ENV KEYCLOAK_URL=http://localhost:8080
 ENV KEYCLOAK_REALM=dev

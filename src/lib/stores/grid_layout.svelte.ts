@@ -3,22 +3,22 @@ export enum Zoom {
   DAY = 24 * 60 * 60 * 1000,
   WEEK = 7 * 24 * 60 * 60 * 1000,
 }
+  function start_of_day_now(): number {
+      let start = new Date()
+      start.setHours(0)
+      start.setMinutes(0)
+      start.setSeconds(0)
+      return start.getTime()
+  }
 export function create_layout() {
-  let start = $state(1729468800 * 1000);
+  let start = $state(start_of_day_now());
   let nb_lines = $state(5);
   let nb_colomns = $state(23);
   const cell_height = 50;
   const axis_height = 30;
   let zoom = $state(Zoom.HOUR);
   let millisec_by_cell = $derived(zoom); // 1 hour
-  let cell_width = $derived.by(() => {
-    switch (zoom) {
-      case Zoom.DAY:
-        return 100;
-      default:
-        return 70;
-    }
-  });
+  let cell_width = $state(60);
   let tz = $state("Europe/Paris");
 
   function set_tz(new_tz: string) {
@@ -32,9 +32,18 @@ export function create_layout() {
   }
   function set_zoom(new_zoom: Zoom) {
     zoom = new_zoom;
+    switch (zoom) {
+      case Zoom.DAY:
+        return 100;
+      default:
+        return 60;
+    }
   }
   function set_nb_lines(new_nb_lines: number) {
     nb_lines = new_nb_lines;
+  }
+  function set_cell_width(v: number) {
+    cell_width = v;
   }
 
   return {
@@ -70,6 +79,7 @@ export function create_layout() {
     },
     set_start,
     set_end,
+    set_cell_width
   };
 }
 

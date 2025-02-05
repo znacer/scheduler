@@ -1,6 +1,8 @@
 import { SvelteMap, SvelteSet } from "svelte/reactivity";
 import { arrange_schedule_lines, tasks_store } from "./tasks.svelte";
 import { ColorPalette } from "./categories.svelte";
+import type { z } from "zod";
+import type { scheduleSchema } from "$lib/server/db/schema/schedule";
 
 export const colorHashMap: Map<string, ColorPalette> = new Map(
   Object.entries(ColorPalette),
@@ -15,8 +17,11 @@ export type Tasks = SvelteSet<number>;
 
 export interface Schedule {
   id: number;
-  name?: string;
+  name: string;
   tasks: Tasks;
+  description: string,
+  writer: string;
+  readers: string[];
 }
 
 export function create_schedules() {
@@ -152,8 +157,19 @@ export function create_schedules() {
     lines_max = new SvelteMap();
   }
 
+  function init(ss: Map<string, { name: string, id: number, description: string, readers: string[], writer: string }>) {
+    schedules = new SvelteMap([...ss.values()].map((s) => [s.id,
+    {
+      ...s,
+      tasks: new SvelteSet()
+    }
+    ]));
+    checked = new SvelteMap([...ss.values()].map(s => [s.id, true]));
+  }
+
   return {
     reset,
+    init,
     get schedules() {
       return schedules;
     },

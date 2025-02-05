@@ -2,42 +2,41 @@
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card/index.js";
   import Input from "$lib/components/ui/input/input.svelte";
-  import { group_store } from "$lib/stores/groups.svelte";
-  import { new_group } from "$lib/data";
-  import GroupTable from "./group_table.svelte";
   import { cn } from "$lib/utils";
-  import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
+  import { enhance } from "$app/forms";
+  import GroupAccordeon from "./group_accordeon.svelte";
 
   interface GroupCardProps {
     class?: string;
+    username: string;
   }
-  let { class: className }: GroupCardProps = $props();
+  let { class: className, username }: GroupCardProps = $props();
   let new_group_name = $state("");
 </script>
 
 <Card.Root
   class={cn("bg-card text-card-foreground rounded-xl border shadow", className)}
 >
-  <Card.Header class="h-1/12">
+  <Card.Header
+    class="sticky top-0 bg-background bg-opacity-100 z-10 text-center py-2"
+  >
     <Card.Title>Mes groupes</Card.Title>
   </Card.Header>
-  <Card.Content class="h-10/12">
-    <ScrollArea class="max-h-52">
-      <GroupTable />
-    </ScrollArea>
+  <Card.Content>
+    <GroupAccordeon {username} />
   </Card.Content>
-  <Card.Footer class="space-x-2 h-1/12">
-    <Input
-      type="text"
-      placeholder="Nom du nouveau groupe à créer"
-      bind:value={new_group_name}
-    />
-    <Button
-      onclick={() => {
-        new_group(new_group_name).then(async () => {
-          await group_store.load();
-        });
-      }}>Valider</Button
+  <form action="?/new_group" method="post" use:enhance>
+    <Card.Footer
+      class="space-x-2 sticky bottom-0 bg-background bg-opacity-100 py-2"
     >
-  </Card.Footer>
+      <Input
+        type="text"
+        name="name"
+        placeholder="Nom du nouveau groupe à créer"
+        class="bg-secondary" 
+        bind:value={new_group_name}
+      />
+      <Button type="submit">Valider</Button>
+    </Card.Footer>
+  </form>
 </Card.Root>

@@ -1,33 +1,21 @@
-import { get_users } from "$lib/data";
-import { SvelteMap } from "svelte/reactivity";
+import { SvelteSet } from "svelte/reactivity";
 
-export interface User {
-  id: number;
-  name: string;
-}
 export function create_users() {
-  let users = $state(new SvelteMap<number, User>());
+  let users = $state(new SvelteSet<string>());
 
-  async function load() {
-    get_users().then((res: User[]) => {
-      res.forEach((g) => {
-        users.set(g.id, g);
-      });
-    });
-  }
   function reset() {
-    users = new SvelteMap();
+    users = new SvelteSet();
   }
 
-  function user(id: number): User | undefined {
-    return users.get(id);
+  
+  function init(us: string[]) {
+    users = new SvelteSet(us);
   }
 
   return {
     get users() { return users; },
     reset,
-    user,
-    load
+    init,
   }
 }
 export const user_store = create_users();

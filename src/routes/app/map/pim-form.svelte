@@ -82,7 +82,7 @@
 			</div>
 			<div>
 				<Label>Date</Label>
-				<Datetimepicker bind:timestamp={form_v.timestamp} />
+				<Datetimepicker bind:value={form_v.timestamp} />
 			</div>
 			{#if form_values[idx + 1]}
 				<div>

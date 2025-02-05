@@ -1,34 +1,32 @@
-import { get_user_groups } from "$lib/data";
-import { SvelteMap } from "svelte/reactivity";
+import { SvelteMap } from 'svelte/reactivity'
 
-  export interface Group {
-    id: number;
-    name: string;
-    admin?: boolean,
-  }
+export interface Group {
+  name: string
+  members?: string[],
+  admins?: string[]
+}
 export function create_groups() {
-  let groups = $state(new SvelteMap<number, Group>());
+  let groups = $state(new SvelteMap<string, Group>())
 
-  async function load() {
-  get_user_groups().then((res: Group[]) => {
-    res.forEach((g) => {
-      groups.set(g.id, g);
-    });
-  });
-  }
   function reset() {
-    groups = new SvelteMap();
+    groups = new SvelteMap()
   }
 
-  function group(id: number): Group | undefined {
-    return groups.get(id);
+  function group(id: string): Group | undefined {
+    return groups.get(id)
+  }
+
+  function init(gs: Map<string, { admins: string[]; members: string[] }>) {
+    groups = new SvelteMap([...gs.entries()].map(([name, members]) => [name, {name,  ...members}]));
   }
 
   return {
-    get groups() { return groups; },
+    get groups() {
+      return groups
+    },
     reset,
+    init,
     group,
-    load
   }
 }
-export const group_store = create_groups();
+export const group_store = create_groups()
