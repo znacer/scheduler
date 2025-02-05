@@ -21,7 +21,7 @@ services:
     build: .
     restart: always
     ports:
-      - 8000:8000
+      - 4173:4173
     depends_on:
       - db
     environment:

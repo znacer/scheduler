@@ -1,10 +1,21 @@
 # Scheduler frontend app
 
+## How to run locally
+1. Use docker compose: `docker compose up`
+2. Initiate the database:
+    - using pgadmin:
+        1. create a database `local`
+        2. run the query of each sql file from the `drizzle` directory
+    - using migration from the app container:
+        1. attach the app container : `docker compose exec app bash`
+        2. run migrations: `npm run db:push`
+3. access the app `http://localhost:4173`
+
+
 ## TODO
 
-- [ ] SSO front
-- [ ] SSO back
-- [ ] user rights to edit a TL
+- [x] SSO front
+- [x] user rights to edit a TL
 
 ### timeline
 - [x] Navigate left and right from timerange
@@ -35,7 +46,7 @@
 ### database
 - [x] Save a new timeline
 - [x] Save a new task
-- [ ] Save all tasks and timelines
+- [x] Save all tasks and timelines
 
 
 ## Data models
@@ -55,31 +66,24 @@ Represent a timeline
 - category: i32, id of the category (foreign key)
 - schedule_id: i64, id of the related schedule (foreign key)
 
-<!-- TODO: -->
 ### Category
 - id: i64, primary key
 - name: String, name of the group
 
-<!-- TODO: -->
 ### Group
 - id: i64, primary key
 - name: String, name of the group
 
-<!-- TODO: -->
 ### User
 - id: i64, primary key
 - name: String, username
 
-<!-- TODO: -->
 ### UserGroup
-- id: i64, primary key
 - user_id: i64, user id (foreign key)
 - group_id: i64, group id (foreign key)
 - admin: bool, if true user is admin of the group, if false just a member
 
-<!-- TODO: -->
 ### ScheduleGroup
-- id: i64, primary key
 - schedule_id: i64, schedule id (foreign key)
 - group_id: i64, group id (foreign key)
 - write: bool, if true group can read and write the schedule, false if read only
