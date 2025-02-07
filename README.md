@@ -1,16 +1,27 @@
 # Scheduler frontend app
 
 ## How to run locally
-1. Use docker compose: `docker compose up`
+1. Create a `.env` file with the following :
+```
+SECURED="UNSECURED"
+APP_URL="http://localhost:5173"
+PUBLIC_TILE_STYLE="https://openstreetmap-tileserver.apps.colbert.marine.defensecdd.gouv.fr/styles/leviathan/style.json"
+DATABASE_URL="postgres://admin:secretpassword@localhost:5432/local"
+```
+1. Start the database using docker compose : `docker compose up`
 2. Initiate the database:
     - using pgadmin:
         1. create a database `local`
         2. run the query of each sql file from the `drizzle` directory
     - using migration from the app container:
-        1. attach the app container : `docker compose exec app bash`
-        2. run migrations: `npm run db:push`
-3. insert at least 1 category (with pgadmin) 
-4. access the app `http://localhost:4173`
+        1. run migrations: `npm run db:push`
+    - using drizzle studio (internet connexion needed):
+        1. run drizzle studio: `npm run db:studio`
+        2. open the "SQL runner"
+        3. run the query of each sql file from the `drizzle` directory
+3. insert at least 1 category (with pgadmin or drizzle studio) 
+4. run the app: `npm run dev`
+5. access the app: `http://localhost:5173`
 
 
 ## TODO

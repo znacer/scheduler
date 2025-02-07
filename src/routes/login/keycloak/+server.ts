@@ -39,9 +39,9 @@ export async function GET(event: RequestEvent) {
         })
         const username: string = JSON.parse(atob(access_token.split(".")[1]))["preferred_username"]
 
-        await db.insert(user).values({ name: username })
-        await db.insert(group).values({ name: username })
-        await db.insert(userToGroup).values({ username, groupname: username, admin: true })
+        await db.insert(user).values({ name: username }).onConflictDoNothing()
+        await db.insert(group).values({ name: username }).onConflictDoNothing()
+        await db.insert(userToGroup).values({ username, groupname: username, admin: true }).onConflictDoNothing()
 
         event.cookies.set("username", username, {
             httpOnly: true,

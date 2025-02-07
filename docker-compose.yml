@@ -1,13 +1,29 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
 services:
-  db:
-    image: postgres
-    restart: always
-    ports:
-      - 5432:5432
-    environment: 
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secretpassword
-      POSTGRES_DB: local
+  # server:
+  #   build:
+  #     context: .
+  #   environment:
+  #     NODE_ENV: production
+  #     DATABASE_URL: postgres://admin:secretpassword@db:5432/local
+  #     SECURED: UNSECURED
+  #     APP_URL: http://localhost:3000
+  #     PUBLIC_TILE_STYLE: https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
+  #     NODE_TLS_REJECT_UNAUTHORIZED: 0
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #
   pgadmin:
     image: dpage/pgadmin4
     restart: always
@@ -17,16 +33,25 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.fr
       PGADMIN_DEFAULT_PASSWORD: admin
 
-  app:
-    build: .
+  db:
+    image: postgres
     restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment: 
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: local
+    expose:
+      - 5432
     ports:
-      - 4173:4173
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgres://admin:secretpassword@db:5432/local
-      SECURED: UNSECURED
-      APP_URL: http://localhost:8000
-      PUBLIC_TILE_STYLE: https://basemaps.cartocdn.com/gl/positron-gl-style/style.json
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-data:
+
